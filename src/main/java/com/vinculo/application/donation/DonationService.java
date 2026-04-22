@@ -18,46 +18,18 @@ public class DonationService {
         this.donationRepository = donationRepository;
     }
 
+    // TODO: Logic will be implemented when Inventory domain layer implemented
     public CreateDonationResponse createDonation(CreateDonationCommand command) {
-        var donor = new Donor(
-            command.donor().name(),
-            command.donor().contact(),
-            command.donor().type()
-        );
-
-        var donation = new DonationOffer(donor);
-
-        for (var item : command.items()) {
-            var donationItem = new DonationItem(
-                item.productId(),
-                item.quantity(),
-                item.unit(),
-                item.expiryDate()
-            );
-            donation.addItem(donationItem);
-        }
-
-        donationRepository.save(donation);
-
-        return toResponse(donation);
+        return null;
     }
-
+    // TODO: Logic will be implemented when Inventory domain layer implemented
     public CreateDonationResponse acceptDonation(UUID donationId, UUID warehouseId) {
-        var donation = donationRepository.findById(donationId)
-            .orElseThrow(() -> new IllegalArgumentException("Donation not found: " + donationId));
-        
-        donation.accept(warehouseId);
-        
-        return toResponse(donation);
+        return null;
     }
 
+    // TODO: Logic will be implemented when Inventory domain layer implemented
     public CreateDonationResponse rejectDonation(UUID donationId) {
-        var donation = donationRepository.findById(donationId)
-            .orElseThrow(() -> new IllegalArgumentException("Donation not found: " + donationId));
-        
-        donation.reject();
-        
-        return toResponse(donation);
+        return null;
     }
 
     private CreateDonationResponse toResponse(DonationOffer donation) {

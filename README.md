@@ -335,6 +335,115 @@ APPROVED → IN_PREPARATION → DELIVERED
 - [ ] Disaster event management
 - [ ] Need assessment per disaster case
 
+---
+
+## Implementation Tasks
+
+### Phase 1: Foundation (Users + Security)
+
+- [ ] **1.1** Create `User` entity with fields: id, email, password, name, role, partnerId, active
+- [ ] **1.2** Create `Partner` entity with fields: id, name, type, contact, zone
+- [ ] **1.3** Create enum `Role`: VOLUNTEER, WAREHOUSE_MANAGER, ENTITY_USER, ADMIN
+- [ ] **1.4** Create enum `PartnerType`: NGO, CIVIL_PROTECTION, MUNICIPALITY, SOCIAL_INSTITUTION, PARISH_COUNCIL, FIREFIGHTERS
+- [ ] **1.5** Create `UserRepository` interface extending JpaRepository
+- [ ] **1.6** Create `PartnerRepository` interface extending JpaRepository
+- [ ] **1.7** Implement JWT authentication (filter, provider, service)
+- [ ] **1.8** Implement password hashing with BCrypt
+- [ ] **1.9** Create login endpoint `POST /api/v1/auth/login`
+- [ ] **1.10** Create register endpoint `POST /api/v1/auth/register`
+- [ ] **1.11** Implement role-based access control (Spring Security)
+- [ ] **1.12** Create OpenAPI configuration
+
+### Phase 2: Inventory (Core Domain)
+
+- [ ] **2.1** Create `Warehouse` aggregate root with fields: id, name, type, status, location
+- [ ] **2.2** Create `WarehouseType` enum: HOTSPOT, WAREHOUSE, RESERVE_AREA
+- [ ] **2.3** Create `WarehouseStatus` enum: ACTIVE, INACTIVE
+- [ ] **2.4** Create `Location` value object: address, latitude, longitude
+- [ ] **2.5** Create `Lot` entity (child of Warehouse): id, productId, lotNumber, quantity, unit, expiryDate, receivedAt
+- [ ] **2.6** Create `Unit` enum: KG, UNIT, LITER
+- [ ] **2.7** Create `StockReservation` entity: id, requestId, lotId, quantityReserved, expiresAt
+- [ ] **2.8** Create `WarehouseRepository` interface
+- [ ] **2.9** Create `LotRepository` interface with FEFO query
+- [ ] **2.10** Create `StockReservationRepository` interface
+- [ ] **2.11** Implement FEFO stock exit logic (query lots by expiryDate ASC)
+- [ ] **2.12** Implement stock reservation with TTL
+- [ ] **2.13** Implement stock deduction on fulfillment
+- [ ] **2.14** Create warehouse CRUD endpoints `GET/POST/PUT /api/v1/warehouses`
+- [ ] **2.15** Create lot management endpoints `POST /api/v1/warehouses/{id}/lots`
+- [ ] **2.16** Create stock view endpoint `GET /api/v1/warehouses/{id}/stock`
+
+### Phase 3: Donations
+
+- [ ] **3.1** Create `DonationOffer` aggregate root: id, createdAt, status, warehouseId, donor
+- [ ] **3.2** Create `DonationOfferStatus` enum: PENDING, ACCEPTED, REJECTED, REDIRECTED
+- [ ] **3.3** Create `Donor` value object: name, contact, type
+- [ ] **3.4** Create `DonorType` enum: INDIVIDUAL, COMPANY, SUPERMARKET
+- [ ] **3.5** Create `DonationItem` entity (child of DonationOffer): id, productId, quantity, unit, expiryDate
+- [ ] **3.6** Create `Product` entity: id, name, category, description
+- [ ] **3.7** Create `ProductCategory` enum: FOOD, WATER, CLOTHING, MEDICINE, HYGIENE, BEDDING, EQUIPMENT, OTHER
+- [ ] **3.8** Create `DonationOfferRepository` interface
+- [ ] **3.9** Create `DonationItemRepository` interface
+- [ ] **3.10** Create `ProductRepository` interface
+- [ ] **3.11** Implement donation creation (POST /api/v1/donations)
+- [ ] **3.12** Implement donation approval workflow (updates status and creates lots in warehouse)
+- [ ] **3.13** Implement donation rejection workflow
+- [ ] **3.14** Create endpoint to list pending donations `GET /api/v1/donations?status=PENDING`
+- [ ] **3.15** Create endpoint to view donation details `GET /api/v1/donations/{id}`
+
+### Phase 4: Requests
+
+- [ ] **4.1** Create `DistributionRequest` aggregate root: id, createdAt, status, warehouseId, priority, organization, deliveryAddress
+- [ ] **4.2** Create `RequestStatus` enum: PENDING, APPROVED, REJECTED, IN_PREPARATION, DELIVERED
+- [ ] **4.3** Create `Priority` enum: LOW, MEDIUM, HIGH, CRITICAL
+- [ ] **4.4** Create `Organization` value object: name, contact, zone, type
+- [ ] **4.5** Create `DeliveryAddress` value object: address, notes
+- [ ] **4.6** Create `RequestItem` entity (child of DistributionRequest): id, productId, quantityRequested, quantityFulfilled, unit
+- [ ] **4.7** Create `DistributionRequestRepository` interface
+- [ ] **4.8** Create `RequestItemRepository` interface
+- [ ] **4.9** Implement request creation (POST /api/v1/requests)
+- [ ] **4.10** Implement stock availability check
+- [ ] **4.11** Implement request approval with stock reservation
+- [ ] **4.12** Implement request rejection
+- [ ] **4.13** Implement fulfillment flow (IN_PREPARATION → DELIVERED)
+- [ ] **4.14** Create endpoint to list requests `GET /api/v1/requests`
+- [ ] **4.15** Create endpoint to view request details `GET /api/v1/requests/{id}`
+- [ ] **4.16** Create endpoint to update request status `PATCH /api/v1/requests/{id}/status`
+
+### Phase 5: Disaster
+
+- [ ] **5.1** Create `DisasterEvent` aggregate root: id, type, location, occurredAt, status
+- [ ] **5.2** Create `DisasterType` enum: FLOOD, FIRE, EARTHQUAKE, OTHER
+- [ ] **5.3** Create `DisasterStatus` enum: ACTIVE, STABILIZED, CLOSED
+- [ ] **5.4** Create `Case` entity (child of DisasterEvent): id, affectedArea, severity, status
+- [ ] **5.5** Create `Severity` enum: LOW, MEDIUM, HIGH, CRITICAL
+- [ ] **5.6** Create `CaseStatus` enum: ASSESSING, NEEDS_DEFINED, CLOSED
+- [ ] **5.7** Create `Need` entity (child of Case): id, productId, quantityNeeded, priority
+- [ ] **5.8** Create `DisasterEventRepository` interface
+- [ ] **5.9** Create `CaseRepository` interface
+- [ ] **5.10** Create `NeedRepository` interface
+- [ ] **5.11** Implement disaster event creation (POST /api/v1/disasters)
+- [ ] **5.12** Implement case management (child of disaster)
+- [ ] **5.13** Implement need assessment per case
+- [ ] **5.14** Create endpoint to list disasters `GET /api/v1/disasters`
+- [ ] **5.15** Create endpoint to view disaster details with cases `GET /api/v1/disasters/{id}`
+- [ ] **5.16** Create endpoint to add case to disaster `POST /api/v1/disasters/{id}/cases`
+- [ ] **5.17** Create endpoint to add need to case `POST /api/v1/disasters/{id}/cases/{caseId}/needs`
+
+### Phase 6: Integration & Polish
+
+- [ ] **6.1** Integrate Donations → Inventory (create lots on donation approval)
+- [ ] **6.2** Integrate Requests → Inventory (reserve stock on request approval)
+- [ ] **6.3** Integrate Disaster → Needs for request prioritization
+- [ ] **6.4** Add input validation on all endpoints
+- [ ] **6.5** Add global exception handling
+- [ ] **6.6** Add health check endpoint `GET /actuator/health`
+- [ ] **6.7** Configure PostgreSQL as production database
+- [ ] **6.8** Add basic unit tests for core services
+- [ ] **6.9** Add integration tests for API endpoints
+
+---
+
 ## Out of Scope (MVP)
 - Mobile/web frontend
 - Real-time notifications (push/WebSocket)

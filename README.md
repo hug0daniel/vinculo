@@ -16,34 +16,34 @@ In disaster scenarios (floods, fires, earthquakes), communities need coordinated
 **Monolithic modular application** with clearly separated bounded contexts. Designed for simplicity in MVP, with bounded contexts prepared for future extraction into microservices if needed.
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              CLIENTS                                        │
-│                                                                             │
+┌───────────────────────────────────────────────────────────────────────────┐
+│                              CLIENTS                                      │
+│                                                                           │
 │   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   │
 │   │  Browser    │   │  Browser    │   │  Browser    │   │    API      │   │
 │   │  Angular    │   │  Angular    │   │  Angular    │   │  (Future)   │   │
-│   │  Volunteer  │   │  Warehouse  │   │  Entity    │   │  Mobile     │   │
+│   │  Volunteer  │   │  Warehouse  │   │  Entity     │   │  Mobile     │   │
 │   │             │   │  Manager    │   │  Distrib.   │   │  App        │   │
 │   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘   │
 └──────────┼─────────────────┼─────────────────┼─────────────────┼──────────┘
            │                 │                 │                 │
            └─────────────────┴────────┬────────┴─────────────────┘
-                                     │
-                                     ▼
+                                      │
+                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                           REST API (Spring Boot)                            │
 │                                                                             │
-│   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   │
-│   │   Auth      │   │  Disaster   │   │  Inventory  │   │  Donation  │   │
-│   │ Controller │   │ Controller  │   │ Controller  │   │ Controller │   │
-│   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘   │
-│          │                 │                 │                 │           │
-│          └─────────────────┴────────┬──────┴─────────────────┘           │
-│                                       ▼                                    │
-│                          ┌─────────────────────────┐                      │
-│                          │    Spring Events         │                      │
-│                          │  (Internal Messaging)    │                      │
-│                          └─────────────────────────┘                      │
+│   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐     │
+│   │   Auth      │   │  Disaster   │   │  Inventory  │   │  Donation   │     │
+│   │ Controller  │   │ Controller  │   │ Controller  │   │ Controller  │     │
+│   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘     │
+│          │                 │                 │                 │            │
+│          └─────────────────┴──────────┬──────┴─────────────────┘            │
+│                                       ▼                                     │
+│                          ┌─────────────────────────┐                        │ 
+│                          │    Spring Events        │                        │
+│                          │  (Internal Messaging)   │                        │
+│                          └─────────────────────────┘                        │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -66,28 +66,28 @@ In disaster scenarios (floods, fires, earthquakes), communities need coordinated
 ## Bounded Contexts
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                             DOMAIN LAYER                                    │
-│                                                                             │
-│   ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌─────────┐ │
-│   │ Disaster  │  │ Inventory │  │ Donation  │  │ Request   │  │  Users  │ │
-│   │           │  │           │  │           │  │           │  │         │ │
-│   │ •Event    │  │ •Warehouse│  │ •Offer    │  │ •Request  │  │ •User   │ │
-│   │ •Case     │  │ •Lot      │  │ •Item     │  │ •Item     │  │ •Role   │ │
-│   │ •Assessment│ │ •Stock   │  │ •Decision │  │ •Priority │  │ •Partner│ │
-│   │ •Need     │  │ •Reservation│ │           │  │           │  │         │ │
-│   └───────────┘  └───────────┘  └───────────┘  └───────────┘  └─────────┘ │
-│                                                                             │
-│   Future extraction path: each context → independent microservice          │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                             DOMAIN LAYER                                      │
+│                                                                               │
+│   ┌─────────── ┐  ┌──────────────┐  ┌───────────┐  ┌───────────┐  ┌─────────┐ │
+│   │ Disaster   │  │ Inventory    │  │ Donation  │  │ Request   │  │  Users  │ │
+│   │            │  │              │  │           │  │           │  │         │ │
+│   │ •Event     │  │ •Warehouse   │  │ •Offer    │  │ •Request  │  │ •User   │ │
+│   │ •Case      │  │ •Lot         │  │ •Item     │  │ •Item     │  │ •Role   │ │
+│   │ •Assessment│  │ •Stock       │  │ •Decision │  │ •Priority │  │ •Partner│ │
+│   │ •Need      │  │ •Reservation │  │           │  │           │  │         │ │
+│   └────────────┘  └──────────────┘  └───────────┘  └───────────┘  └─────────┘ │
+│                                                                               │
+│   Future extraction path: each context → independent microservice             │
+│                                                                               │
+└───────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Context Dependencies
 
 ```
 Donations ──writes──► Inventory ◄──reserves── Requests
-    ▲                                           │
+    ▲                                            │
     │              Disaster                      │
     └────────────triggers────────────────────────┘
 ```

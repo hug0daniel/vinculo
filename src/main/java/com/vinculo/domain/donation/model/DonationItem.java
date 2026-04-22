@@ -1,10 +1,14 @@
 package com.vinculo.domain.donation.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Getter
 @Entity
 public class DonationItem {
 
@@ -25,6 +29,7 @@ public class DonationItem {
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "donation_id", nullable = false)
     private DonationOffer donation;
@@ -39,31 +44,4 @@ public class DonationItem {
         this.expiryDate = expiryDate;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public UUID getProductId() {
-        return productId;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public QuantityUnit getUnit() {
-        return unit;
-    }
-
-    public LocalDate getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setDonation(DonationOffer donation) {
-        this.donation = donation;
-    }
-
-    public DonationOffer getDonation() {
-        return donation;
-    }
 }

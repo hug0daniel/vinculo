@@ -41,13 +41,17 @@ public class User {
     protected User() {
     }
 
-    public User(String email, String password, String userName, Role role, Partner partner, boolean active) {
-        this.email = email;
-        this.password = password;
-        this.userName = userName;
-        this.role = role;
-        this.partner = partner;
-        this.active = active;
+    private User(Builder builder) {
+        this.email = builder.email;
+        this.password = builder.password;
+        this.userName = builder.userName;
+        this.role = builder.role;
+        this.partner = builder.partner;
+        this.active = builder.active;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public UUID getId() { return id; }
@@ -64,4 +68,24 @@ public class User {
     public void setRole(Role role) { this.role = role; }
     public void setPartner(Partner partner) { this.partner = partner; }
     public void setActive(boolean active) { this.active = active; }
+
+    public static class Builder {
+        private String email;
+        private String password;
+        private String userName;
+        private Role role;
+        private Partner partner;
+        private boolean active = true;
+
+        public Builder email(String email) { this.email = email; return this; }
+        public Builder password(String password) { this.password = password; return this; }
+        public Builder userName(String userName) { this.userName = userName; return this; }
+        public Builder role(Role role) { this.role = role; return this; }
+        public Builder partner(Partner partner) { this.partner = partner; return this; }
+        public Builder active(boolean active) { this.active = active; return this; }
+
+        public User build() {
+            return new User(this);
+        }
+    }
 }

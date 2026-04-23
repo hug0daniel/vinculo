@@ -341,18 +341,18 @@ APPROVED → IN_PREPARATION → DELIVERED
 
 ### Phase 1: Foundation (Users + Security)
 
-- [ ] **1.1** Create `User` entity with fields: id, email, password, name, role, partnerId, active
-- [ ] **1.2** Create `Partner` entity with fields: id, name, type, contact, zone
-- [ ] **1.3** Create enum `Role`: VOLUNTEER, WAREHOUSE_MANAGER, ENTITY_USER, ADMIN
-- [ ] **1.4** Create enum `PartnerType`: NGO, CIVIL_PROTECTION, MUNICIPALITY, SOCIAL_INSTITUTION, PARISH_COUNCIL, FIREFIGHTERS
-- [ ] **1.5** Create `UserRepository` interface extending JpaRepository
-- [ ] **1.6** Create `PartnerRepository` interface extending JpaRepository
-- [ ] **1.7** Implement JWT authentication (filter, provider, service)
-- [ ] **1.8** Implement password hashing with BCrypt
-- [ ] **1.9** Create login endpoint `POST /api/v1/auth/login`
-- [ ] **1.10** Create register endpoint `POST /api/v1/auth/register`
-- [ ] **1.11** Implement role-based access control (Spring Security)
-- [ ] **1.12** Create OpenAPI configuration
+- [x] **1.1** Create `User` entity with fields: id, email, password, name, role, partnerId, active
+- [x] **1.2** Create `Partner` entity with fields: id, name, type, contact, zone
+- [x] **1.3** Create enum `Role`: VOLUNTEER, WAREHOUSE_MANAGER, ENTITY_USER, ADMIN
+- [x] **1.4** Create enum `PartnerType`: NGO, CIVIL_PROTECTION, MUNICIPALITY, SOCIAL_INSTITUTION, PARISH_COUNCIL, FIREFIGHTERS
+- [x] **1.5** Create `UserRepository` interface extending JpaRepository
+- [x] **1.6** Create `PartnerRepository` interface extending JpaRepository
+- [x] **1.7** Implement JWT authentication (filter, provider, service)
+- [x] **1.8** Implement password hashing with BCrypt
+- [x] **1.9** Create login endpoint `POST /api/v1/users/login`
+- [ ] **1.10** Create register endpoint `POST /api/v1/users/register`
+- [x] **1.11** Implement role-based access control (Spring Security)
+- [x] **1.12** Create OpenAPI configuration
 
 ### Phase 2: Inventory (Core Domain)
 
@@ -375,19 +375,19 @@ APPROVED → IN_PREPARATION → DELIVERED
 
 ### Phase 3: Donations
 
-- [ ] **3.1** Create `DonationOffer` aggregate root: id, createdAt, status, warehouseId, donor
-- [ ] **3.2** Create `DonationOfferStatus` enum: PENDING, ACCEPTED, REJECTED, REDIRECTED
-- [ ] **3.3** Create `Donor` value object: name, contact, type
-- [ ] **3.4** Create `DonorType` enum: INDIVIDUAL, COMPANY, SUPERMARKET
-- [ ] **3.5** Create `DonationItem` entity (child of DonationOffer): id, productId, quantity, unit, expiryDate
+- [x] **3.1** Create `DonationOffer` aggregate root: id, createdAt, status, warehouseId, donor
+- [x] **3.2** Create `DonationOfferStatus` enum: PENDING, ACCEPTED, REJECTED, REDIRECTED
+- [x] **3.3** Create `Donor` value object: name, contact, type
+- [x] **3.4** Create `DonorType` enum: INDIVIDUAL, COMPANY, SUPERMARKET
+- [x] **3.5** Create `DonationItem` entity (child of DonationOffer): id, productId, quantity, unit, expiryDate
 - [ ] **3.6** Create `Product` entity: id, name, category, description
 - [ ] **3.7** Create `ProductCategory` enum: FOOD, WATER, CLOTHING, MEDICINE, HYGIENE, BEDDING, EQUIPMENT, OTHER
-- [ ] **3.8** Create `DonationOfferRepository` interface
-- [ ] **3.9** Create `DonationItemRepository` interface
+- [x] **3.8** Create `DonationOfferRepository` interface
+- [x] **3.9** Create `DonationItemRepository` interface
 - [ ] **3.10** Create `ProductRepository` interface
-- [ ] **3.11** Implement donation creation (POST /api/v1/donations)
-- [ ] **3.12** Implement donation approval workflow (updates status and creates lots in warehouse)
-- [ ] **3.13** Implement donation rejection workflow
+- [x] **3.11** Implement donation creation (POST /api/v1/donations)
+- [x] **3.12** Implement donation approval workflow (updates status and creates lots in warehouse)
+- [x] **3.13** Implement donation rejection workflow
 - [ ] **3.14** Create endpoint to list pending donations `GET /api/v1/donations?status=PENDING`
 - [ ] **3.15** Create endpoint to view donation details `GET /api/v1/donations/{id}`
 

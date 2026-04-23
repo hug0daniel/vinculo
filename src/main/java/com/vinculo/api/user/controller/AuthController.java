@@ -1,8 +1,8 @@
 package com.vinculo.api.user.controller;
 
 import com.vinculo.api.user.dto.LoginRequest;
+import com.vinculo.application.user.AuthResult;
 import com.vinculo.application.user.AuthService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,15 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "Login", description = "Authenticate and receive JWT token")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        return ResponseEntity.ok(authService.login(request));
+        AuthResult result = authService.login(request);
+        LoginResponse response = new LoginResponse(
+            result.token(),
+            result.userId(),
+            result.email(),
+            result.userName(),
+            result.role()
+        );
+        return ResponseEntity.ok(response);
     }
 }

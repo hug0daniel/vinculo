@@ -3,6 +3,7 @@ package com.vinculo.application.user;
 import com.vinculo.api.user.dto.CreateUserRequest;
 import com.vinculo.api.user.dto.CreateUserResponse;
 import com.vinculo.api.user.UserMapper;
+import com.vinculo.application.exception.ResourceNotFoundException;
 import com.vinculo.domain.user.model.AppUser;
 import com.vinculo.domain.user.model.Partner;
 import com.vinculo.domain.user.repository.PartnerRepository;
@@ -28,7 +29,7 @@ public class UserService {
         Partner partner = null;
         if (request.partnerId() != null) {
             partner = partnerRepository.findById(request.partnerId())
-                .orElseThrow(() -> new IllegalArgumentException("Partner not found: " + request.partnerId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Partner not found: " + request.partnerId()));
         }
 
         var user = AppUser.builder()
@@ -47,7 +48,7 @@ public class UserService {
 
     public CreateUserResponse getUser(UUID id) {
         var user = userRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
         return UserMapper.toResponse(user);
     }
 }

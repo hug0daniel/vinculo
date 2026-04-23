@@ -1,6 +1,7 @@
 package com.vinculo.application.donation;
 
 import com.vinculo.api.donation.CreateDonationResponse;
+import com.vinculo.application.exception.ResourceNotFoundException;
 import com.vinculo.domain.donation.model.*;
 import com.vinculo.domain.donation.repository.DonationRepository;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class DonationService {
 
     public CreateDonationResponse acceptDonation(UUID donationId, UUID warehouseId) {
         var donation = donationRepository.findById(donationId)
-            .orElseThrow(() -> new IllegalArgumentException("Donation not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Donation not found"));
 
         donation.accept(warehouseId);
         return toResponse(donation);
@@ -51,7 +52,7 @@ public class DonationService {
 
     public CreateDonationResponse rejectDonation(UUID donationId) {
         var donation = donationRepository.findById(donationId)
-            .orElseThrow(() -> new IllegalArgumentException("Donation not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Donation not found"));
 
         donation.reject();
         return toResponse(donation);

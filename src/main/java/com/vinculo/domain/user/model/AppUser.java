@@ -1,33 +1,24 @@
 package com.vinculo.domain.user.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.util.UUID;
 
 @Entity
-public class User {
+@Table(name = "app_user")
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
-    @Email
     @Column(unique = true)
     private String email;
 
-    @NotBlank
-    @Size(min = 8)
     private String password;
 
-    @NotBlank
-    @Size(max = 100)
+    @Column(name = "user_name")
     private String userName;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -38,10 +29,10 @@ public class User {
     @Column(name = "active")
     private boolean active;
 
-    protected User() {
+    protected AppUser() {
     }
 
-    private User(Builder builder) {
+    private AppUser(Builder builder) {
         this.email = builder.email;
         this.password = builder.password;
         this.userName = builder.userName;
@@ -84,8 +75,8 @@ public class User {
         public Builder partner(Partner partner) { this.partner = partner; return this; }
         public Builder active(boolean active) { this.active = active; return this; }
 
-        public User build() {
-            return new User(this);
+        public AppUser build() {
+            return new AppUser(this);
         }
     }
 }

@@ -1,8 +1,6 @@
 package com.vinculo.domain.user.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,10 +12,8 @@ public class Partner {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
     private String organizationName;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private PartnerType type;
 
@@ -28,7 +24,7 @@ public class Partner {
     private String zone;
 
     @OneToMany(mappedBy = "partner")
-    private List<User> users = new ArrayList<>();
+    private List<AppUser> users = new ArrayList<>();
 
     protected Partner() {
     }
@@ -45,14 +41,14 @@ public class Partner {
     public PartnerType getType() { return type; }
     public String getContact() { return contact; }
     public String getZone() { return zone; }
-    public List<User> getUsers() { return users; }
+    public List<AppUser> getUsers() { return users; }
 
     public void setOrganizationName(String organizationName) { this.organizationName = organizationName; }
     public void setType(PartnerType type) { this.type = type; }
     public void setContact(String contact) { this.contact = contact; }
     public void setZone(String zone) { this.zone = zone; }
-    
-    public void addUser(User user) {
+
+    public void addUser(AppUser user) {
         users.add(user);
         user.setPartner(this);
     }

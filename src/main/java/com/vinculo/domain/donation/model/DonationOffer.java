@@ -1,8 +1,6 @@
 package com.vinculo.domain.donation.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,24 +13,18 @@ public class DonationOffer {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private DonationStatus status;
 
     @Column(name = "warehouse_id")
     private UUID warehouseId;
 
-    @Valid
-    @NotNull
     @Embedded
     private Donor donor;
 
-    @Valid
-    @NotNull
     @OneToMany(mappedBy = "donation", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<DonationItem> items = new ArrayList<>();
 

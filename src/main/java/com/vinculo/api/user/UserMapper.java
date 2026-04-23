@@ -2,11 +2,11 @@ package com.vinculo.api.user;
 
 import com.vinculo.api.user.controller.LoginResponse;
 import com.vinculo.api.user.dto.CreateUserResponse;
-import com.vinculo.domain.user.model.User;
+import com.vinculo.domain.user.model.AppUser;
 
 public class UserMapper {
 
-    public static CreateUserResponse toResponse(User user) {
+    public static CreateUserResponse toResponse(AppUser user) {
         var partnerSummary = user.getPartner() != null
             ? new CreateUserResponse.PartnerSummary(
                 user.getPartner().getId(),
@@ -23,7 +23,7 @@ public class UserMapper {
         );
     }
 
-    public static LoginResponse toLoginResponse(User user, String token) {
+    public static LoginResponse toLoginResponse(AppUser user, String token) {
         return new LoginResponse(
             token,
             user.getId(),

@@ -1,8 +1,6 @@
 package com.vinculo.domain.donation.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -15,20 +13,15 @@ public class DonationItem {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull
     private UUID productId;
 
-    @NotNull
-    @Positive
     private BigDecimal quantity;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private QuantityUnit unit;
 
     private LocalDate expiryDate;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "donation_id")
     private DonationOffer donation;

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public record CreateDonationResponse(
+public record DonationResponse(
     UUID donationId,
     DonationStatus status,
     LocalDateTime createdAt,

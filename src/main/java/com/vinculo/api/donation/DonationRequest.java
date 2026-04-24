@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-public record CreateDonationRequest(
+public record DonationRequest(
     @NotNull(message = "Donor is required")
     @Valid
     DonorDto donor,

@@ -1,12 +1,13 @@
-package com.vinculo.api.user;
+package com.vinculo.api.user.utils;
 
-import com.vinculo.api.user.controller.LoginResponse;
+import com.vinculo.api.user.dto.LoginResponse;
 import com.vinculo.api.user.dto.CreateUserResponse;
-import com.vinculo.domain.user.model.AppUser;
+import com.vinculo.application.user.AuthResult;
+import com.vinculo.domain.user.model.User;
 
 public class UserMapper {
 
-    public static CreateUserResponse toResponse(AppUser user) {
+    public static CreateUserResponse toResponse(User user) {
         var partnerSummary = user.getPartner() != null
             ? new CreateUserResponse.PartnerSummary(
                 user.getPartner().getId(),
@@ -23,13 +24,13 @@ public class UserMapper {
         );
     }
 
-    public static LoginResponse toLoginResponse(AppUser user, String token) {
+    public static LoginResponse toLoginResponse(AuthResult result) {
         return new LoginResponse(
-            token,
-            user.getId(),
-            user.getEmail(),
-            user.getUserName(),
-            user.getRole().name()
+            result.token(),
+            result.userId(),
+            result.email(),
+            result.userName(),
+            result.role()
         );
     }
 }

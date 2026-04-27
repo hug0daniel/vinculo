@@ -1,7 +1,8 @@
 package com.vinculo.application.donation;
 
-import com.vinculo.api.donation.DonationRequest;
-import com.vinculo.api.donation.DonationResponse;
+import com.vinculo.api.donation.dto.DonationRequest;
+import com.vinculo.api.donation.dto.DonationResponse;
+import com.vinculo.api.donation.utils.DonationMapper;
 import com.vinculo.application.exception.ResourceNotFoundException;
 import com.vinculo.domain.donation.model.DonationOffer;
 import com.vinculo.domain.donation.repository.DonationRepository;

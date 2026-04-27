@@ -1,7 +1,7 @@
-package com.vinculo.application.donation;
+package com.vinculo.api.donation.utils;
 
-import com.vinculo.api.donation.DonationRequest;
-import com.vinculo.api.donation.DonationResponse;
+import com.vinculo.api.donation.dto.DonationRequest;
+import com.vinculo.api.donation.dto.DonationResponse;
 import com.vinculo.domain.donation.model.DonationOffer;
 import com.vinculo.domain.donation.model.Donor;
 import com.vinculo.domain.donation.model.DonationItem;

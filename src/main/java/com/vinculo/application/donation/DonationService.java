@@ -1,7 +1,7 @@
 package com.vinculo.application.donation;
 
-import com.vinculo.api.donation.DonationRequest;
-import com.vinculo.api.donation.DonationResponse;
+import com.vinculo.api.donation.dto.DonationRequest;
+import com.vinculo.api.donation.dto.DonationResponse;
 
 import java.util.UUID;
 

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "app_user")
-public class AppUser {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -29,10 +29,10 @@ public class AppUser {
     @Column(name = "active")
     private boolean active;
 
-    protected AppUser() {
+    protected User() {
     }
 
-    private AppUser(Builder builder) {
+    private User(Builder builder) {
         this.email = builder.email;
         this.password = builder.password;
         this.userName = builder.userName;
@@ -75,8 +75,8 @@ public class AppUser {
         public Builder partner(Partner partner) { this.partner = partner; return this; }
         public Builder active(boolean active) { this.active = active; return this; }
 
-        public AppUser build() {
-            return new AppUser(this);
+        public User build() {
+            return new User(this);
         }
     }
 }

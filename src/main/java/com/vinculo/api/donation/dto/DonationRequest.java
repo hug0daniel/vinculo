@@ -1,4 +1,4 @@
-package com.vinculo.api.donation;
+package com.vinculo.api.donation.dto;
 
 import com.vinculo.domain.donation.model.DonorType;
 import com.vinculo.domain.donation.model.QuantityUnit;

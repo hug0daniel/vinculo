@@ -2,10 +2,10 @@ package com.vinculo.application.user;
 
 import com.vinculo.api.user.dto.CreateUserRequest;
 import com.vinculo.api.user.dto.CreateUserResponse;
-import com.vinculo.api.user.UserMapper;
+import com.vinculo.api.user.utils.UserMapper;
 import com.vinculo.application.exception.ResourceNotFoundException;
-import com.vinculo.domain.user.model.AppUser;
 import com.vinculo.domain.user.model.Partner;
+import com.vinculo.domain.user.model.User;
 import com.vinculo.domain.user.repository.PartnerRepository;
 import com.vinculo.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -32,7 +32,7 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("Partner not found: " + request.partnerId()));
         }
 
-        var user = AppUser.builder()
+        var user = User.builder()
             .email(request.email())
             .password(request.password())
             .userName(request.userName())

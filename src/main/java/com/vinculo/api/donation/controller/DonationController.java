@@ -1,5 +1,7 @@
-package com.vinculo.api.donation;
+package com.vinculo.api.donation.controller;
 
+import com.vinculo.api.donation.dto.DonationRequest;
+import com.vinculo.api.donation.dto.DonationResponse;
 import com.vinculo.application.donation.DonationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

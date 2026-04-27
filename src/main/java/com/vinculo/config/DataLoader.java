@@ -3,6 +3,7 @@ package com.vinculo.config;
 import com.vinculo.domain.user.model.Partner;
 import com.vinculo.domain.user.model.PartnerType;
 import com.vinculo.domain.user.repository.PartnerRepository;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -22,7 +23,7 @@ public class DataLoader implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String @NonNull ... args) {
         if (partnerRepository.count() > 0) {
             log.info("Partners already loaded, skipping");
             return;

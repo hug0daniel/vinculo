@@ -1,9 +1,12 @@
 package com.vinculo.domain.donation.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -31,71 +34,64 @@ public class DonationOffer {
     protected DonationOffer() {
     }
 
-    public DonationOffer(Donor donor) {
+    private DonationOffer(Builder builder) {
+        this.donor = builder.donor;
         this.createdAt = LocalDateTime.now();
         this.status = DonationStatus.PENDING;
-        this.donor = donor;
     }
 
-    public UUID getId() {
-        return id;
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    public UUID getId() { return id; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public DonationStatus getStatus() { return status; }
+    public UUID getWarehouseId() { return warehouseId; }
+    public Donor getDonor() { return donor; }
+    public List<DonationItem> getItems() { return items; }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public DonationStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(DonationStatus status) {
-        this.status = status;
-    }
-
-    public UUID getWarehouseId() {
-        return warehouseId;
-    }
-
-    public void setWarehouseId(UUID warehouseId) {
-        this.warehouseId = warehouseId;
-    }
-
-    public Donor getDonor() {
-        return donor;
-    }
-
-    public void setDonor(Donor donor) {
-        this.donor = donor;
-    }
-
-    public List<DonationItem> getItems() {
-        return items;
-    }
-
-    public void addItem(DonationItem item) {
+    public void addItem(UUID productId, BigDecimal quantity, QuantityUnit unit, LocalDate expiryDate) {
+        var item = new DonationItem(productId, quantity, unit, expiryDate);
         items.add(item);
         item.setDonation(this);
     }
 
     public void accept(UUID warehouseId) {
+        if (this.status != DonationStatus.PENDING) {
+            throw new IllegalStateException("Can only accept pending donations");
+        }
         this.status = DonationStatus.ACCEPTED;
         this.warehouseId = warehouseId;
     }
 
     public void reject() {
+        if (this.status != DonationStatus.PENDING) {
+            throw new IllegalStateException("Can only reject pending donations");
+        }
         this.status = DonationStatus.REJECTED;
     }
 
     public void redirect() {
+        if (this.status != DonationStatus.PENDING) {
+            throw new IllegalStateException("Can only redirect pending donations");
+        }
         this.status = DonationStatus.REDIRECTED;
+    }
+
+    public static class Builder {
+        private Donor donor;
+
+        public Builder donor(Donor donor) {
+            this.donor = donor;
+            return this;
+        }
+
+        public DonationOffer build() {
+            if (donor == null) {
+                throw new IllegalArgumentException("Donor is required");
+            }
+            return new DonationOffer(this);
+        }
     }
 }

@@ -4,8 +4,10 @@ import com.vinculo.api.donation.dto.DonationRequest;
 import com.vinculo.api.donation.dto.DonationResponse;
 import com.vinculo.domain.donation.model.DonationOffer;
 import com.vinculo.domain.donation.model.Donor;
-import com.vinculo.domain.donation.model.DonationItem;
+import com.vinculo.domain.donation.model.QuantityUnit;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class DonationMapper {
@@ -17,26 +19,28 @@ public class DonationMapper {
             request.donor().type()
         );
 
-        var donation = new DonationOffer(donor);
+        var donation = DonationOffer.builder()
+            .donor(donor)
+            .build();
 
         for (var itemReq : request.items()) {
-            var item = new DonationItem(
+            donation.addItem(
                 itemReq.productId(),
                 itemReq.quantity(),
                 itemReq.unit(),
                 itemReq.expiryDate()
             );
-            donation.addItem(item);
         }
 
         return donation;
     }
 
     public DonationResponse toResponse(DonationOffer donation) {
+        var donor = donation.getDonor();
         var donorDto = new DonationResponse.DonorDto(
-            donation.getDonor().name(),
-            donation.getDonor().contact(),
-            donation.getDonor().type().name()
+            donor.getName(),
+            donor.getContact(),
+            donor.getType().name()
         );
 
         var itemsDto = donation.getItems().stream()

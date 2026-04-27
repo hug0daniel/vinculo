@@ -3,7 +3,6 @@ package com.vinculo.domain.donation.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -14,7 +13,6 @@ public class DonationItem {
     private UUID id;
 
     private UUID productId;
-
     private BigDecimal quantity;
 
     @Enumerated(EnumType.STRING)
@@ -36,59 +34,14 @@ public class DonationItem {
         this.expiryDate = expiryDate;
     }
 
-    public UUID getId() {
-        return id;
-    }
+    public UUID getId() { return id; }
+    public UUID getProductId() { return productId; }
+    public BigDecimal getQuantity() { return quantity; }
+    public QuantityUnit getUnit() { return unit; }
+    public LocalDate getExpiryDate() { return expiryDate; }
+    public DonationOffer getDonation() { return donation; }
 
-    public UUID getProductId() {
-        return productId;
-    }
-
-    public void setProductId(UUID productId) {
-        this.productId = productId;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
-    }
-
-    public QuantityUnit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(QuantityUnit unit) {
-        this.unit = unit;
-    }
-
-    public LocalDate getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public DonationOffer getDonation() {
-        return donation;
-    }
-
-    public void setDonation(DonationOffer donation) {
+    void setDonation(DonationOffer donation) {
         this.donation = donation;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        DonationItem that = (DonationItem) o;
-        return Objects.equals(id, that.id) && Objects.equals(productId, that.productId) && Objects.equals(quantity, that.quantity) && unit == that.unit && Objects.equals(expiryDate, that.expiryDate) && Objects.equals(donation, that.donation);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, productId, quantity, unit, expiryDate, donation);
     }
 }

@@ -1,4 +1,4 @@
-package com.vinculo.api.user.controller;
+package com.vinculo.api.user.dto;
 
 import java.util.UUID;
 

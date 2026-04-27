@@ -1,5 +1,6 @@
 package com.vinculo.infrastructure.security;
 
+import com.vinculo.domain.user.model.User;
 import com.vinculo.domain.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -7,6 +8,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jspecify.annotations.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +23,8 @@ import java.util.UUID;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
@@ -35,7 +40,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return path.startsWith("/swagger-ui")
                 || path.equals("/swagger-ui.html")
                 || path.startsWith("/v3/api-docs")
-                || path.startsWith("/api/v1/auth");
+                || path.equals("/api/v1/users/login")
+                || path.equals("/api/v1/users/register")
+                || path.startsWith("/api/v1/users/debug")
+                || path.startsWith("/h2console")
+                || path.startsWith("/h2-console");
     }
 
     @Override

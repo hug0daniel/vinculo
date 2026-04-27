@@ -1,5 +1,6 @@
 package com.vinculo.domain.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Partner {
     private String zone;
 
     @OneToMany(mappedBy = "partner")
+    @JsonIgnore
     private List<User> users = new ArrayList<>();
 
     protected Partner() {

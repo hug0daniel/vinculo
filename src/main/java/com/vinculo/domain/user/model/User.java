@@ -1,5 +1,6 @@
 package com.vinculo.domain.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.UUID;
 
@@ -24,6 +25,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "partner_id")
+    @JsonIgnore
     private Partner partner;
 
     @Column(name = "active")

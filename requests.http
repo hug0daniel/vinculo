@@ -1,0 +1,174 @@
+### Vínculo API - Request Examples
+### Base URL: http://localhost:8080/api/v1
+
+### ========================================
+### DONATIONS
+### ========================================
+
+### Create a new donation (individual)
+POST http://localhost:8080/api/v1/donations
+Content-Type: application/json
+
+{
+  "donor": {
+    "name": "John Doe",
+    "contact": "john@example.com",
+    "type": "INDIVIDUAL"
+  },
+  "items": [
+    {
+      "productId": "{{$guid}}",
+      "quantity": 50.0,
+      "unit": "KG"
+    }
+  ]
+}
+
+### Create a donation from a company
+POST http://localhost:8080/api/v1/donations
+Content-Type: application/json
+
+{
+  "donor": {
+    "name": "Food Bank Porto",
+    "contact": "contact@foodbank.pt",
+    "type": "COMPANY"
+  },
+  "items": [
+    {
+      "productId": "{{$guid}}",
+      "quantity": 100.0,
+      "unit": "KG"
+    },
+    {
+      "productId": "{{$guid}}",
+      "quantity": 50.0,
+      "unit": "LITER",
+      "expiryDate": "2027-06-01"
+    }
+  ]
+}
+
+### Create anonymous donation
+POST http://localhost:8080/api/v1/donations
+Content-Type: application/json
+
+{
+  "donor": {
+    "type": "INDIVIDUAL"
+  },
+  "items": [
+    {
+      "productId": "{{$guid}}",
+      "quantity": 25.0,
+      "unit": "UNIT"
+    }
+  ]
+}
+
+### Accept a donation (requires warehouseId)
+POST http://localhost:8080/api/v1/donations/{{donationId}}/accept?warehouseId={{warehouseId}}
+Content-Type: application/json
+
+### Reject a donation
+POST http://localhost:8080/api/v1/donations/{{donationId}}/reject
+Content-Type: application/json
+
+### ========================================
+### REQUESTS (Distribution)
+### ========================================
+
+### Create distribution request
+POST http://localhost:8080/api/v1/requests
+Content-Type: application/json
+
+{
+  "warehouseId": "{{warehouseId}}",
+  "organization": {
+    "name": "NGO Porto",
+    "contact": "ngo@porto.pt",
+    "zone": "Porto",
+    "type": "NGO"
+  },
+  "deliveryAddress": {
+    "address": "123 Porto Street",
+    "notes": "Side entrance"
+  },
+  "priority": "HIGH",
+  "items": [
+    {
+      "productId": "{{productId}}",
+      "quantityRequested": 30.0,
+      "unit": "KG"
+    }
+  ]
+}
+
+### Get request status
+GET http://localhost:8080/api/v1/requests/{{requestId}}
+
+### ========================================
+### INVENTORY
+### ========================================
+
+### Get warehouse stock
+GET http://localhost:8080/api/v1/inventory/warehouses/{{warehouseId}}/stock
+
+### Get warehouse info
+GET http://localhost:8080/api/v1/inventory/warehouses/{{warehouseId}}
+
+### ========================================
+### DISASTER
+### ========================================
+
+### Create disaster event
+POST http://localhost:8080/api/v1/disasters
+Content-Type: application/json
+
+{
+  "type": "FLOOD",
+  "location": {
+    "address": "Avenida dos Aliados, Porto",
+    "latitude": 41.1475,
+    "longitude": -8.6158
+  }
+}
+
+### Assess disaster needs
+POST http://localhost:8080/api/v1/disasters/{{disasterId}}/needs
+Content-Type: application/json
+
+{
+  "affectedArea": "Downtown Porto",
+  "severity": "HIGH",
+  "needs": [
+    {
+      "productId": "{{productId}}",
+      "quantityNeeded": 500.0,
+      "priority": "CRITICAL"
+    }
+  ]
+}
+
+### ========================================
+### AUTH
+### ========================================
+
+### Login
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password"
+}
+
+### ========================================
+### SWAGGER UI
+### ========================================
+
+# View API documentation
+GET http://localhost:8080/swagger-ui.html
+
+# View OpenAPI spec
+GET http://localhost:8080/v3/api-docs

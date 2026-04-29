@@ -30,7 +30,7 @@ class DonationPersistenceTest {
             .donor(donor)
             .build();
 
-        donation.addItem(UUID.randomUUID(), new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
+        donation.addItem("Rice", new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
 
         var saved = donationRepository.save(donation);
         var found = donationRepository.findById(saved.getId()).orElse(null);
@@ -48,8 +48,8 @@ class DonationPersistenceTest {
             .donor(donor)
             .build();
 
-        donation.addItem(UUID.randomUUID(), new BigDecimal("100"), QuantityUnit.KG, null);
-        donation.addItem(UUID.randomUUID(), new BigDecimal("50"), QuantityUnit.LITER, LocalDate.now().plusMonths(3));
+        donation.addItem("Rice", new BigDecimal("100"), QuantityUnit.KG, null);
+        donation.addItem("Water", new BigDecimal("50"), QuantityUnit.LITER, LocalDate.now().plusMonths(3));
 
         var saved = donationRepository.save(donation);
         var found = donationRepository.findById(saved.getId()).orElse(null);

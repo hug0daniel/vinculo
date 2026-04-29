@@ -6,13 +6,10 @@ import com.vinculo.domain.inventory.repository.LotRepository;
 import com.vinculo.domain.inventory.repository.StockReservationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-
-import static java.math.BigDecimal.ZERO;
 
 @Service
 public class StockReservationService {
@@ -32,12 +29,11 @@ public class StockReservationService {
     }
 
     @Transactional
-    public ReservationResult reserveStock(UUID requestId, UUID warehouseId, UUID productId, BigDecimal quantity) {
-        List<Lot> lots = lotRepository.findByWarehouse_IdAndProductIdAndQuantityGreaterThanOrderByExpiryDateAsc(
-                warehouseId, productId, ZERO);
+    public ReservationResult reserveStock(UUID requestId, UUID warehouseId, String productName, BigDecimal quantity) {
+        List<Lot> lots = lotRepository.findByWarehouseId(warehouseId);
 
         if (lots.isEmpty()) {
-            throw new IllegalArgumentException("No stock available for product: " + productId);
+            throw new IllegalArgumentException("No stock available for product: " + productName);
         }
 
         BigDecimal available = fefoStockService.getTotalAvailableStock(lots);
@@ -45,7 +41,7 @@ public class StockReservationService {
             throw new IllegalArgumentException("Insufficient stock. Available: " + available + ", Requested: " + quantity);
         }
 
-        List<FefoStockService.LotAllocation> allocations = fefoStockService.allocateStock(productId, quantity, lots);
+        List<FefoStockService.LotAllocation> allocations = fefoStockService.allocateStock(productName, quantity, lots);
 
         LocalDateTime expiresAt = LocalDateTime.now().plusHours(RESERVATION_TTL_HOURS);
 

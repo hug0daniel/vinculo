@@ -80,13 +80,13 @@ class DonationControllerTest {
 
     private DonationRequest createDonationRequest() {
         var donor = new DonorDto("John Doe", "john@test.com", DonorType.INDIVIDUAL);
-        var item = new DonationItemDto(UUID.randomUUID(), new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
+        var item = new DonationItemDto("Rice", new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
         return new DonationRequest(donor, List.of(item));
     }
 
     private DonationResponse createDonationResponse() {
         var donor = new DonationResponse.DonorDto("John Doe", "john@test.com", "INDIVIDUAL");
-        var item = new DonationResponse.ItemDto(UUID.randomUUID(), new BigDecimal("50"), null, null);
+        var item = new DonationResponse.ItemDto("Rice", new BigDecimal("50"), null, null);
         return new DonationResponse(donationId, DonationStatus.PENDING, null, donor, List.of(item));
     }
 }

@@ -7,11 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,12 +20,12 @@ class FefoStockServiceTest {
     private static final LocalDate LATE_EXPIRY = LocalDate.of(2026, 9, 1);
 
     private FefoStockService fefoStockService;
-    private UUID productId;
+    private String productId;
 
     @BeforeEach
     void setUp() {
         fefoStockService = new FefoStockService();
-        productId = UUID.randomUUID();
+        productId = "Rice";
     }
 
     @Nested
@@ -37,12 +35,12 @@ class FefoStockServiceTest {
         @Test
         @DisplayName("should allocate from earliest expiry first")
         void shouldAllocateFEFO() {
-            Lot lot1 = new Lot(productId, new BigDecimal("30"), Unit.KG, EARLY_EXPIRY);
-            Lot lot2 = new Lot(productId, new BigDecimal("50"), Unit.KG, LATE_EXPIRY);
+            Lot lot1 = new Lot("Rice", new BigDecimal("30"), Unit.KG, EARLY_EXPIRY);
+            Lot lot2 = new Lot("Rice", new BigDecimal("50"), Unit.KG, LATE_EXPIRY);
             List<Lot> lots = List.of(lot1, lot2);
 
             List<FefoStockService.LotAllocation> allocations = fefoStockService.allocateStock(
-                    productId,
+                    "Rice",
                     new BigDecimal("60"),
                     lots
             );
@@ -94,8 +92,8 @@ class FefoStockServiceTest {
         @Test
         @DisplayName("should calculate total available")
         void shouldCalculateTotalAvailable() {
-            Lot lot1 = new Lot(productId, new BigDecimal("30"), Unit.KG, EARLY_EXPIRY);
-            Lot lot2 = new Lot(productId, new BigDecimal("50"), Unit.KG, LATE_EXPIRY);
+            Lot lot1 = new Lot("Rice", new BigDecimal("30"), Unit.KG, EARLY_EXPIRY);
+            Lot lot2 = new Lot("Rice", new BigDecimal("50"), Unit.KG, LATE_EXPIRY);
 
             BigDecimal total = fefoStockService.getTotalAvailableStock(List.of(lot1, lot2));
 

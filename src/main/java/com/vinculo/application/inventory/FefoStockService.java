@@ -6,12 +6,11 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class FefoStockService {
 
-    public List<LotAllocation> allocateStock(UUID productId, BigDecimal quantity, List<Lot> availableLots) {
+    public List<LotAllocation> allocateStock(String productName, BigDecimal quantity, List<Lot> availableLots) {
         List<LotAllocation> allocations = new ArrayList<>();
         BigDecimal remaining = quantity;
 

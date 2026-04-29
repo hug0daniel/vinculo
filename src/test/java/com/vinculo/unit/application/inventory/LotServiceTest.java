@@ -60,7 +60,7 @@ class LotServiceTest {
                     .build();
 
 var request = new LotRequest(
-                    UUID.randomUUID(),
+                    "Rice",
                     new BigDecimal("50"),
                     Unit.KG,
                     LocalDate.now().plusMonths(6),
@@ -81,7 +81,7 @@ var request = new LotRequest(
         @DisplayName("should throw when warehouse not found")
         void shouldThrowWhenWarehouseNotFound() {
             var request = new LotRequest(
-                    UUID.randomUUID(),
+                    "Rice",
                     new BigDecimal("50"),
                     Unit.KG,
                     LocalDate.now().plusMonths(6),
@@ -103,7 +103,7 @@ var request = new LotRequest(
         @Test
         @DisplayName("should get lot by id")
         void shouldGetLotById() {
-            var lot = new Lot(UUID.randomUUID(), new BigDecimal("50"), Unit.KG, LocalDate.now().plusMonths(6));
+            var lot = new Lot("Rice", new BigDecimal("50"), Unit.KG, LocalDate.now().plusMonths(6));
 
             when(lotRepository.findById(lotId)).thenReturn(Optional.of(lot));
 
@@ -125,7 +125,7 @@ var request = new LotRequest(
         @Test
         @DisplayName("should get lots by warehouse")
         void shouldGetLotsByWarehouse() {
-            var lot = new Lot(UUID.randomUUID(), new BigDecimal("50"), Unit.KG, LocalDate.now().plusMonths(6));
+            var lot = new Lot("Rice", new BigDecimal("50"), Unit.KG, LocalDate.now().plusMonths(6));
 
             when(lotRepository.findByWarehouseId(warehouseId)).thenReturn(List.of(lot));
 

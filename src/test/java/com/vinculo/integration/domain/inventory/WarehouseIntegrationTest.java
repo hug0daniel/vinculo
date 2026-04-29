@@ -13,10 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,7 +57,7 @@ class WarehouseIntegrationTest {
                 .type(WarehouseType.WAREHOUSE)
                 .build());
 
-        var lot = new Lot(java.util.UUID.randomUUID(), new BigDecimal("50"), Unit.KG, LocalDate.now().plusMonths(6));
+        var lot = new Lot("Rice", new BigDecimal("50"), Unit.KG, LocalDate.now().plusMonths(6));
         warehouse.addLot(lot);
         lotRepository.save(lot);
 
@@ -76,8 +74,8 @@ class WarehouseIntegrationTest {
                 .type(WarehouseType.WAREHOUSE)
                 .build());
 
-        var lot1 = new Lot(java.util.UUID.randomUUID(), new BigDecimal("30"), Unit.KG, LocalDate.now().plusMonths(3));
-        var lot2 = new Lot(java.util.UUID.randomUUID(), new BigDecimal("50"), Unit.KG, LocalDate.now().plusMonths(6));
+        var lot1 = new Lot("Rice", new BigDecimal("30"), Unit.KG, LocalDate.now().plusMonths(3));
+        var lot2 = new Lot("Beans", new BigDecimal("50"), Unit.KG, LocalDate.now().plusMonths(6));
 
         warehouse.addLot(lot1);
         warehouse.addLot(lot2);

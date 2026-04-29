@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,7 +38,7 @@ class DonationDtoValidationTest {
         void shouldPassWithValidData() {
             var request = new DonationRequest(
                 new DonorDto("John Doe", "john@example.com", DonorType.INDIVIDUAL),
-                List.of(new DonationItemDto(UUID.randomUUID(), new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6)))
+                List.of(new DonationItemDto("Rice", new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6)))
             );
 
             var violations = validator.validate(request);
@@ -52,7 +51,7 @@ class DonationDtoValidationTest {
         void shouldFailWhenDonorNull() {
             var request = new DonationRequest(
                 null,
-                List.of(new DonationItemDto(UUID.randomUUID(), new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6)))
+                List.of(new DonationItemDto("Rice", new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6)))
             );
 
             var violations = validator.validate(request);
@@ -122,7 +121,7 @@ class DonationDtoValidationTest {
         @Test
         @DisplayName("should pass with valid data")
         void shouldPassWithValidData() {
-            var item = new DonationItemDto(UUID.randomUUID(), new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
+            var item = new DonationItemDto("Rice", new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
 
             var violations = validator.validate(item);
 
@@ -130,20 +129,20 @@ class DonationDtoValidationTest {
         }
 
         @Test
-        @DisplayName("should fail when productId is null")
-        void shouldFailWhenProductIdNull() {
+        @DisplayName("should fail when productName is null")
+        void shouldFailWhenProductNameNull() {
             var item = new DonationItemDto(null, new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
 
             var violations = validator.validate(item);
 
             assertFalse(violations.isEmpty());
-            assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("productId")));
+            assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("productName")));
         }
 
         @Test
         @DisplayName("should fail when quantity is null")
         void shouldFailWhenQuantityNull() {
-            var item = new DonationItemDto(UUID.randomUUID(), null, QuantityUnit.KG, LocalDate.now().plusMonths(6));
+            var item = new DonationItemDto("Rice", null, QuantityUnit.KG, LocalDate.now().plusMonths(6));
 
             var violations = validator.validate(item);
 
@@ -154,7 +153,7 @@ class DonationDtoValidationTest {
         @Test
         @DisplayName("should fail when quantity is not positive")
         void shouldFailWhenQuantityNotPositive() {
-            var item = new DonationItemDto(UUID.randomUUID(), new BigDecimal("-5"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
+            var item = new DonationItemDto("Rice", new BigDecimal("-5"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
 
             var violations = validator.validate(item);
 
@@ -165,7 +164,7 @@ class DonationDtoValidationTest {
         @Test
         @DisplayName("should fail when unit is null")
         void shouldFailWhenUnitNull() {
-            var item = new DonationItemDto(UUID.randomUUID(), new BigDecimal("50"), null, LocalDate.now().plusMonths(6));
+            var item = new DonationItemDto("Rice", new BigDecimal("50"), null, LocalDate.now().plusMonths(6));
 
             var violations = validator.validate(item);
 

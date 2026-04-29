@@ -60,12 +60,11 @@ class DonationOfferTest {
         @DisplayName("should add item to donation")
         void shouldAddItem() {
             var donation = DonationOffer.builder().donor(donor).build();
-            var productId = UUID.randomUUID();
 
-            donation.addItem(productId, new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
+            donation.addItem("Rice", new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
 
             assertEquals(1, donation.getItems().size());
-            assertEquals(productId, donation.getItems().getFirst().getProductId());
+            assertEquals("Rice", donation.getItems().getFirst().getProductName());
         }
     }
 
@@ -166,7 +165,7 @@ class DonationOfferTest {
 
     private DonationOffer createPendingDonation() {
         var donation = DonationOffer.builder().donor(donor).build();
-        donation.addItem(UUID.randomUUID(), new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
+        donation.addItem("Rice", new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
         return donation;
     }
 }

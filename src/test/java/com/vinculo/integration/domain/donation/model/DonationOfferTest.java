@@ -70,7 +70,7 @@ class DonationOfferTest {
             .donor(donor)
             .build();
 
-        donation.addItem(UUID.randomUUID(), new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
+        donation.addItem("Rice", new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
 
         assertEquals(1, donation.getItems().size());
     }

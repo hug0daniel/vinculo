@@ -12,7 +12,7 @@ public class DonationItem {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private UUID productId;
+    private String productName;
     private BigDecimal quantity;
 
     @Enumerated(EnumType.STRING)
@@ -27,15 +27,15 @@ public class DonationItem {
     protected DonationItem() {
     }
 
-    public DonationItem(UUID productId, BigDecimal quantity, QuantityUnit unit, LocalDate expiryDate) {
-        this.productId = productId;
+    public DonationItem(String productName, BigDecimal quantity, QuantityUnit unit, LocalDate expiryDate) {
+        this.productName = productName;
         this.quantity = quantity;
         this.unit = unit;
         this.expiryDate = expiryDate;
     }
 
     public UUID getId() { return id; }
-    public UUID getProductId() { return productId; }
+    public String getProductName() { return productName; }
     public BigDecimal getQuantity() { return quantity; }
     public QuantityUnit getUnit() { return unit; }
     public LocalDate getExpiryDate() { return expiryDate; }

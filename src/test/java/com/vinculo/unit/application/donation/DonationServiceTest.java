@@ -4,7 +4,6 @@ import com.vinculo.api.donation.dto.DonationRequest;
 import com.vinculo.api.donation.dto.DonationResponse;
 import com.vinculo.api.donation.utils.DonationMapper;
 import com.vinculo.api.warehouse.dto.LotRequest;
-import com.vinculo.api.warehouse.dto.LotResponse;
 import com.vinculo.application.inventory.StockManagementPort;
 import com.vinculo.domain.donation.model.DonationOffer;
 import com.vinculo.domain.donation.model.DonationStatus;
@@ -13,7 +12,6 @@ import com.vinculo.domain.donation.model.DonorType;
 import com.vinculo.domain.donation.model.QuantityUnit;
 import com.vinculo.domain.donation.repository.DonationRepository;
 import com.vinculo.domain.inventory.model.Warehouse;
-import com.vinculo.domain.inventory.model.WarehouseStatus;
 import com.vinculo.domain.inventory.model.WarehouseType;
 import com.vinculo.domain.inventory.repository.WarehouseRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -74,7 +71,7 @@ class DonationServiceTest {
 
             var request = new DonationRequest(
                     new DonationRequest.DonorDto("John Doe", "john@example.com", DonorType.INDIVIDUAL),
-                    List.of(new DonationRequest.DonationItemDto(UUID.randomUUID(), new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6)))
+                    List.of(new DonationRequest.DonationItemDto("", new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6)))
             );
 
             when(mapper.toEntity(request)).thenReturn(donation);
@@ -105,8 +102,8 @@ class DonationServiceTest {
                     .status(com.vinculo.domain.inventory.model.WarehouseStatus.ACTIVE)
                     .build();
 
-            var productId = UUID.randomUUID();
-            donation.addItem(productId, new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
+            String productName = "Rice";
+            donation.addItem(productName, new BigDecimal("50"), QuantityUnit.KG, LocalDate.now().plusMonths(6));
 
             when(donationRepository.findById(donationId)).thenReturn(Optional.of(donation));
             when(warehouseRepository.findById(warehouseId)).thenReturn(Optional.of(warehouse));

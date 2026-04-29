@@ -17,5 +17,5 @@ public record DonationResponse(
     List<ItemDto> items
 ) {
     public record DonorDto(String name, String contact, String type) {}
-    public record ItemDto(UUID productId, BigDecimal quantity, QuantityUnit unit, LocalDate expiryDate) {}
+    public record ItemDto(String productName, BigDecimal quantity, QuantityUnit unit, LocalDate expiryDate) {}
 }

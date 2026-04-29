@@ -60,7 +60,7 @@ public class DonationServiceImpl implements DonationService {
 
         for (DonationItem item : donation.getItems()) {
             LotRequest request = new LotRequest(
-                        item.getProductId(),
+                        item.getProductName(),
                         item.getQuantity(),
                         mapQuantityToUnit(item.getUnit()),
                         item.getExpiryDate(),

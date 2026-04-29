@@ -51,8 +51,8 @@ public class DonationOffer {
     public Donor getDonor() { return donor; }
     public List<DonationItem> getItems() { return items; }
 
-    public void addItem(UUID productId, BigDecimal quantity, QuantityUnit unit, LocalDate expiryDate) {
-        var item = new DonationItem(productId, quantity, unit, expiryDate);
+    public void addItem(String productName, BigDecimal quantity, QuantityUnit unit, LocalDate expiryDate) {
+        DonationItem item = new DonationItem(productName, quantity, unit, expiryDate);
         items.add(item);
         item.setDonation(this);
     }

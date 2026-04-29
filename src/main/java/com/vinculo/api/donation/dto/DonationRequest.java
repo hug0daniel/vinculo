@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 public record DonationRequest(
     @NotNull(message = "Donor is required")
@@ -27,8 +26,8 @@ public record DonationRequest(
     ) {}
 
     public record DonationItemDto(
-        @NotNull(message = "Product ID is required")
-        UUID productId,
+        @NotNull(message = "Product name is required")
+        String productName,
         @NotNull(message = "Quantity is required")
         @Positive(message = "Quantity must be positive")
         BigDecimal quantity,

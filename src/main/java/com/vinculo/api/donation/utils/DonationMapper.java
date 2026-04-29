@@ -4,11 +4,8 @@ import com.vinculo.api.donation.dto.DonationRequest;
 import com.vinculo.api.donation.dto.DonationResponse;
 import com.vinculo.domain.donation.model.DonationOffer;
 import com.vinculo.domain.donation.model.Donor;
-import com.vinculo.domain.donation.model.QuantityUnit;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class DonationMapper {
@@ -26,7 +23,7 @@ public class DonationMapper {
 
         for (DonationRequest.DonationItemDto itemReq : request.items()) {
             donation.addItem(
-                itemReq.productId(),
+                itemReq.productName(),
                 itemReq.quantity(),
                 itemReq.unit(),
                 itemReq.expiryDate()
@@ -46,7 +43,7 @@ public class DonationMapper {
 
         List<DonationResponse.ItemDto> itemsDto = donation.getItems().stream()
             .map(item -> new DonationResponse.ItemDto(
-                item.getProductId(),
+                item.getProductName(),
                 item.getQuantity(),
                 item.getUnit(),
                 item.getExpiryDate()

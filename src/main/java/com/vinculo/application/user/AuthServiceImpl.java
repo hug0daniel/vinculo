@@ -3,6 +3,7 @@ package com.vinculo.application.user;
 import com.vinculo.api.user.dto.LoginRequest;
 import com.vinculo.application.exception.InactiveUserException;
 import com.vinculo.application.exception.InvalidCredentialsException;
+import com.vinculo.domain.user.model.User;
 import com.vinculo.domain.user.repository.UserRepository;
 import com.vinculo.infrastructure.security.JwtProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +24,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResult login(LoginRequest request) {
-        var user = userRepository.findByEmail(request.email())
+        User user = userRepository.findByEmail(request.email())
             .orElseThrow(InvalidCredentialsException::new);
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
@@ -34,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
             throw new InactiveUserException();
         }
 
-        var token = jwtProvider.generateToken(
+        String token = jwtProvider.generateToken(
             user.getId(),
             user.getEmail(),
             user.getRole().name()

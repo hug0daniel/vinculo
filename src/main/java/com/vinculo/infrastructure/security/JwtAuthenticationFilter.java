@@ -1,5 +1,6 @@
 package com.vinculo.infrastructure.security;
 
+import com.vinculo.domain.user.model.User;
 import com.vinculo.domain.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -8,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -65,14 +67,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Claims claims = jwtProvider.validateToken(token);
             UUID userId = UUID.fromString(claims.getSubject());
 
-            var user = userRepository.findById(userId).orElse(null);
+            User user = userRepository.findById(userId).orElse(null);
             if (user == null || !user.isActive()) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
-            var authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public record LotResponse(
     UUID id,
-    String productId,
+    String productName,
     String lotNumber,
     BigDecimal quantity,
     BigDecimal initialQuantity,

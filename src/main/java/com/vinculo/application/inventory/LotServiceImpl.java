@@ -6,6 +6,7 @@ import com.vinculo.api.warehouse.utils.LotMapper;
 import com.vinculo.application.exception.ResourceNotFoundException;
 import com.vinculo.domain.inventory.model.Lot;
 import com.vinculo.domain.inventory.model.Warehouse;
+import com.vinculo.domain.inventory.model.WarehouseStatus;
 import com.vinculo.domain.inventory.repository.LotRepository;
 import com.vinculo.domain.inventory.repository.WarehouseRepository;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @Transactional
-public class LotServiceImpl implements LotService {
+public class LotServiceImpl implements LotService, StockManagementPort {
 
     private final LotRepository lotRepository;
     private final WarehouseRepository warehouseRepository;
@@ -28,8 +29,17 @@ public class LotServiceImpl implements LotService {
 
     @Override
     public LotResponse createLot(UUID warehouseId, LotRequest request) {
+        return createLotInWarehouse(warehouseId, request);
+    }
+
+    @Override
+    public LotResponse createLotInWarehouse(UUID warehouseId, LotRequest request) {
         Warehouse warehouse = warehouseRepository.findById(warehouseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Warehouse not found: " + warehouseId));
+
+        if (warehouse.getStatus() != WarehouseStatus.ACTIVE) {
+            throw new IllegalStateException("Warehouse is not active");
+        }
 
         Lot lot = LotMapper.toEntity(request, warehouse);
         return LotMapper.toResponse(lotRepository.save(lot));
@@ -47,5 +57,9 @@ public class LotServiceImpl implements LotService {
         return lotRepository.findByWarehouseId(warehouseId).stream()
                 .map(LotMapper::toResponse)
                 .toList();
+    }
+
+    @Override
+    public void allocateStock(UUID warehouseId, UUID productId, int quantity) {
     }
 }

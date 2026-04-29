@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public record LotRequest(
     @NotNull
-    String productId,
+    String productName,
 
     @NotNull @Positive
     BigDecimal quantity,

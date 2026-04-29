@@ -5,14 +5,12 @@ import com.vinculo.api.warehouse.dto.LotResponse;
 import com.vinculo.domain.inventory.model.Lot;
 import com.vinculo.domain.inventory.model.Warehouse;
 
-import java.util.UUID;
-
 public class LotMapper {
 
     public static LotResponse toResponse(Lot lot) {
         return new LotResponse(
                 lot.getId(),
-                lot.getProductId() != null ? lot.getProductId().toString() : null,
+                lot.getProductName(),
                 lot.getLotNumber(),
                 lot.getQuantity(),
                 lot.getInitialQuantity(),
@@ -25,7 +23,7 @@ public class LotMapper {
 
     public static Lot toEntity(LotRequest request, Warehouse warehouse) {
         Lot lot = new Lot(
-                UUID.fromString(request.productId()),
+                request.productName(),
                 request.quantity(),
                 request.unit(),
                 request.expiryDate()

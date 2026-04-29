@@ -13,7 +13,7 @@ public class Lot {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private UUID productId;
+    private String productName;
 
     private String lotNumber;
 
@@ -36,8 +36,8 @@ public class Lot {
     protected Lot() {
     }
 
-    public Lot(UUID productId, BigDecimal quantity, Unit unit, LocalDate expiryDate) {
-        this.productId = productId;
+    public Lot(String productName, BigDecimal quantity, Unit unit, LocalDate expiryDate) {
+        this.productName = productName;
         this.quantity = quantity;
         this.initialQuantity = quantity;
         this.unit = unit;
@@ -46,7 +46,7 @@ public class Lot {
     }
 
     public UUID getId() { return id; }
-    public UUID getProductId() { return productId; }
+    public String getProductName() { return productName; }
     public String getLotNumber() { return lotNumber; }
     public BigDecimal getQuantity() { return quantity; }
     public BigDecimal getInitialQuantity() { return initialQuantity; }

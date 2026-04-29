@@ -1,10 +1,8 @@
 package com.vinculo.api.warehouse.controller;
 
-import com.vinculo.api.warehouse.dto.LotRequest;
-import com.vinculo.api.warehouse.dto.LotResponse;
 import com.vinculo.api.warehouse.dto.WarehouseRequest;
 import com.vinculo.api.warehouse.dto.WarehouseResponse;
-import com.vinculo.application.inventory.LotService;
+import com.vinculo.api.warehouse.dto.StockResponse;
 import com.vinculo.application.inventory.WarehouseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,71 +15,55 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/warehouses")
 @Tag(name = "Warehouses", description = "Warehouse management")
 public class WarehouseController {
 
     private final WarehouseService warehouseService;
-    private final LotService lotService;
 
-    public WarehouseController(WarehouseService warehouseService, LotService lotService) {
+    public WarehouseController(WarehouseService warehouseService) {
         this.warehouseService = warehouseService;
-        this.lotService = lotService;
     }
 
-    @PostMapping("/warehouses")
+    @PostMapping
     @Operation(summary = "Create warehouse", description = "Register a new warehouse")
     public ResponseEntity<WarehouseResponse> createWarehouse(@Valid @RequestBody WarehouseRequest request) {
-        var response = warehouseService.createWarehouse(request);
+        WarehouseResponse response = warehouseService.createWarehouse(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/warehouses/{id}")
+    @GetMapping("/{id}")
     @Operation(summary = "Get warehouse by ID")
     public ResponseEntity<WarehouseResponse> getWarehouse(@PathVariable UUID id) {
-        var response = warehouseService.getWarehouse(id);
+        WarehouseResponse response = warehouseService.getWarehouse(id);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/warehouses")
+    @GetMapping
     @Operation(summary = "List all warehouses")
     public ResponseEntity<List<WarehouseResponse>> getAllWarehouses() {
-        var response = warehouseService.getAllWarehouses();
+        List<WarehouseResponse> response = warehouseService.getAllWarehouses();
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/warehouses/{id}/deactivate")
+    @DeleteMapping("/{id}")
     @Operation(summary = "Deactivate warehouse", description = "Mark warehouse as inactive")
     public ResponseEntity<WarehouseResponse> deactivateWarehouse(@PathVariable UUID id) {
-        var response = warehouseService.deactivateWarehouse(id);
+        WarehouseResponse response = warehouseService.deactivateWarehouse(id);
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/warehouses/{id}/activate")
+    @PutMapping("/{id}/activate")
     @Operation(summary = "Activate warehouse", description = "Mark warehouse as active")
     public ResponseEntity<WarehouseResponse> activateWarehouse(@PathVariable UUID id) {
-        var response = warehouseService.activateWarehouse(id);
+        WarehouseResponse response = warehouseService.activateWarehouse(id);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/warehouses/{warehouseId}/lots")
-    @Operation(summary = "Add lot to warehouse", description = "Register a new lot in warehouse")
-    public ResponseEntity<LotResponse> createLot(@PathVariable UUID warehouseId, @Valid @RequestBody LotRequest request) {
-        var response = lotService.createLot(warehouseId, request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    @GetMapping("/warehouses/{warehouseId}/lots")
-    @Operation(summary = "List lots in warehouse")
-    public ResponseEntity<List<LotResponse>> getLotsByWarehouse(@PathVariable UUID warehouseId) {
-        var response = lotService.getLotsByWarehouse(warehouseId);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/lots/{id}")
-    @Operation(summary = "Get lot by ID")
-    public ResponseEntity<LotResponse> getLot(@PathVariable UUID id) {
-        var response = lotService.getLot(id);
+    @GetMapping("/{id}/stock")
+    @Operation(summary = "Get warehouse stock")
+    public ResponseEntity<StockResponse> getStock(@PathVariable UUID id) {
+        StockResponse response = warehouseService.getStock(id);
         return ResponseEntity.ok(response);
     }
 }

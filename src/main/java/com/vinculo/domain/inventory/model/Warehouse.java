@@ -36,8 +36,8 @@ public class Warehouse {
     private Warehouse(Builder builder) {
         this.name = builder.name;
         this.type = builder.type;
+        this.status = builder.status != null ? builder.status : WarehouseStatus.ACTIVE;
         this.location = builder.location;
-        this.status = WarehouseStatus.ACTIVE;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -73,6 +73,7 @@ public class Warehouse {
     public static class Builder {
         private String name;
         private WarehouseType type;
+        private WarehouseStatus status;
         private Location location;
 
         public Builder name(String name) {
@@ -82,6 +83,11 @@ public class Warehouse {
 
         public Builder type(WarehouseType type) {
             this.type = type;
+            return this;
+        }
+
+        public Builder status(WarehouseStatus status) {
+            this.status = status;
             return this;
         }
 

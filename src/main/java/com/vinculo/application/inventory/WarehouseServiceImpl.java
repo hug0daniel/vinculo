@@ -2,14 +2,18 @@ package com.vinculo.application.inventory;
 
 import com.vinculo.api.warehouse.dto.WarehouseRequest;
 import com.vinculo.api.warehouse.dto.WarehouseResponse;
+import com.vinculo.api.warehouse.dto.StockResponse;
 import com.vinculo.api.warehouse.utils.WarehouseMapper;
 import com.vinculo.application.exception.ResourceNotFoundException;
+import com.vinculo.domain.inventory.model.Lot;
 import com.vinculo.domain.inventory.model.Warehouse;
 import com.vinculo.domain.inventory.model.WarehouseStatus;
+import com.vinculo.domain.inventory.repository.LotRepository;
 import com.vinculo.domain.inventory.repository.WarehouseRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,9 +22,11 @@ import java.util.UUID;
 public class WarehouseServiceImpl implements WarehouseService {
 
     private final WarehouseRepository warehouseRepository;
+    private final LotRepository lotRepository;
 
-    public WarehouseServiceImpl(WarehouseRepository warehouseRepository) {
+    public WarehouseServiceImpl(WarehouseRepository warehouseRepository, LotRepository lotRepository) {
         this.warehouseRepository = warehouseRepository;
+        this.lotRepository = lotRepository;
     }
 
     @Override
@@ -40,6 +46,30 @@ public class WarehouseServiceImpl implements WarehouseService {
         return warehouseRepository.findAll().stream()
                 .map(WarehouseMapper::toResponse)
                 .toList();
+    }
+
+    @Override
+    public StockResponse getStock(UUID warehouseId) {
+        Warehouse warehouse = findWarehouseById(warehouseId);
+
+        List<Lot> lots = lotRepository.findByWarehouseId(warehouseId);
+        BigDecimal total = lots.stream()
+                .filter(Lot::hasStock)
+                .map(Lot::getQuantity)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        List<StockResponse.StockItem> items = lots.stream()
+                .filter(Lot::hasStock)
+                .map(lot -> new StockResponse.StockItem(
+                        lot.getId(),
+                        lot.getProductName(),
+                        lot.getQuantity(),
+                        lot.getUnit(),
+                        lot.getExpiryDate()
+                ))
+                .toList();
+
+        return new StockResponse(warehouseId, warehouse.getName(), items, total);
     }
 
     @Override

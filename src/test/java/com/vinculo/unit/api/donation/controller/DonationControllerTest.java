@@ -48,7 +48,7 @@ class DonationControllerTest {
         var request = createDonationRequest();
         var result = donationController.createDonation(request);
 
-        assertEquals(HttpStatus.ACCEPTED, result.getStatusCode());
+        assertEquals(HttpStatus.CREATED, result.getStatusCode());
         assertNotNull(result.getBody());
         verify(donationService, times(1)).createDonation(any(DonationRequest.class));
     }

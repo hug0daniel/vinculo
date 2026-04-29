@@ -7,23 +7,24 @@ import com.vinculo.domain.donation.model.Donor;
 import com.vinculo.domain.donation.model.QuantityUnit;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class DonationMapper {
 
     public DonationOffer toEntity(DonationRequest request) {
-        var donor = new Donor(
+        Donor donor = new Donor(
             request.donor().name(),
             request.donor().contact(),
             request.donor().type()
         );
 
-        var donation = DonationOffer.builder()
+        DonationOffer donation = DonationOffer.builder()
             .donor(donor)
             .build();
 
-        for (var itemReq : request.items()) {
+        for (DonationRequest.DonationItemDto itemReq : request.items()) {
             donation.addItem(
                 itemReq.productId(),
                 itemReq.quantity(),
@@ -36,14 +37,14 @@ public class DonationMapper {
     }
 
     public DonationResponse toResponse(DonationOffer donation) {
-        var donor = donation.getDonor();
-        var donorDto = new DonationResponse.DonorDto(
+        Donor donor = donation.getDonor();
+        DonationResponse.DonorDto donorDto = new DonationResponse.DonorDto(
             donor.getName(),
             donor.getContact(),
             donor.getType().name()
         );
 
-        var itemsDto = donation.getItems().stream()
+        List<DonationResponse.ItemDto> itemsDto = donation.getItems().stream()
             .map(item -> new DonationResponse.ItemDto(
                 item.getProductId(),
                 item.getQuantity(),

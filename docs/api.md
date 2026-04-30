@@ -153,6 +153,58 @@ POST /requests/{id}/fulfill
 ```
 Response: 200 OK
 
+### Disaster
+
+#### Create Disaster
+```
+POST /disasters
+Content-Type: application/json
+
+{
+    "name": "Enchente SP 2026",
+    "type": "FLOOD",
+    "location": "São Paulo"
+}
+```
+Response: 201 Created
+
+#### List Disasters
+```
+GET /disasters
+```
+Response: 200 OK
+
+#### Get Disaster
+```
+GET /disasters/{id}
+```
+Response: 200 OK
+
+#### Update Disaster
+```
+PUT /disasters/{id}
+Content-Type: application/json
+
+{
+    "name": "Updated Name",
+    "type": "EARTHQUAKE",
+    "location": "Updated Location"
+}
+```
+Response: 200 OK
+
+#### Deactivate Disaster
+```
+POST /disasters/{id}/deactivate
+```
+Response: 200 OK
+
+#### Reactivate Disaster
+```
+POST /disasters/{id}/reactivate
+```
+Response: 200 OK
+
 ### Warehouse
 
 #### Create Warehouse

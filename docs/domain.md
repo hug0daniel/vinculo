@@ -92,16 +92,29 @@ Beneficiary → Request (PENDING) → Approve → Allocate Stock (Inventory)
 - `type`: NGO | GOVERNMENT | COMPANY
 - `location`: String
 
-### 5. Disaster Context (Planned)
+### 5. Disaster Context
 
 **Responsibility**: Managing disaster events.
 
 **Core Entity**: `Disaster`
 - `id`: UUID
 - `name`: String (ex: "Enchente SP 2026")
-- `type`: FLOOD | EARTHQUAKE | FIRE
+- `type`: FLOOD | EARTHQUAKE | FIRE | PANDEMIC | OTHER
 - `status`: ACTIVE | INACTIVE
 - `location`: String
+- `startDate`: LocalDate
+- `endDate`: LocalDate (when deactivated)
+
+**Flow**:
+```
+Create Disaster → ACTIVE
+              ↓
+            Deactivate → INACTIVE
+              ↓
+            Reactivate → ACTIVE
+```
+
+### 6. Disaster Context (Planned)
 
 ---
 

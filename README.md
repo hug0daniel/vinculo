@@ -41,6 +41,11 @@ mvn test
 | Request | POST /api/v1/requests/{id}/approve | Approve request |
 | Request | POST /api/v1/requests/{id}/reject | Reject request |
 | Request | POST /api/v1/requests/{id}/fulfill | Fulfill request |
+| Disaster | POST /api/v1/disasters | Create disaster |
+| Disaster | GET /api/v1/disasters | List disasters |
+| Disaster | PUT /api/v1/disasters/{id} | Update disaster |
+| Disaster | POST /api/v1/disasters/{id}/deactivate | Deactivate disaster |
+| Disaster | POST /api/v1/disasters/{id}/reactivate | Reactivate disaster |
 | Warehouse | POST /api/v1/warehouses | Create warehouse |
 | Warehouse | GET /api/v1/warehouses | List warehouses |
 | Warehouse | GET /api/v1/warehouses/{id}/stock | Get stock |
@@ -61,6 +66,7 @@ mvn test
 **Bounded Contexts:**
 - **Donation**: Donor offers
 - **Request**: Aid requests from beneficiaries
+- **Disaster**: Disaster events management
 - **Inventory**: Warehouse, Lot, Stock
 - **User**: Authentication, Partners
 

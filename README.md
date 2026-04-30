@@ -36,6 +36,11 @@ mvn test
 | Donation | GET /api/v1/donations | List donations |
 | Donation | POST /api/v1/donations/{id}/accept | Accept donation |
 | Donation | POST /api/v1/donations/{id}/reject | Reject donation |
+| Request | POST /api/v1/requests | Create request |
+| Request | GET /api/v1/requests | List requests |
+| Request | POST /api/v1/requests/{id}/approve | Approve request |
+| Request | POST /api/v1/requests/{id}/reject | Reject request |
+| Request | POST /api/v1/requests/{id}/fulfill | Fulfill request |
 | Warehouse | POST /api/v1/warehouses | Create warehouse |
 | Warehouse | GET /api/v1/warehouses | List warehouses |
 | Warehouse | GET /api/v1/warehouses/{id}/stock | Get stock |
@@ -55,6 +60,7 @@ mvn test
 
 **Bounded Contexts:**
 - **Donation**: Donor offers
+- **Request**: Aid requests from beneficiaries
 - **Inventory**: Warehouse, Lot, Stock
 - **User**: Authentication, Partners
 

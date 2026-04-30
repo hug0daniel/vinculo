@@ -21,10 +21,34 @@
 **Flow**:
 ```
 Donor → DonationOffer (PENDING) → Accept → Lot (Inventory)
-                                     → Reject → REJECTED
+                                      → Reject → REJECTED
 ```
 
-### 2. Inventory Context
+### 2. Request Context
+
+**Responsibility**: Managing aid requests from beneficiaries.
+
+**Core Entity**: `Request`
+- `id`: UUID
+- `status`: PENDING | APPROVED | REJECTED | FULFILLED
+- `beneficiary`: Beneficiary info
+- `items`: List of RequestItem
+- `disasterId`: UUID
+- `warehouseId`: UUID (after approval)
+
+**Core Entity**: `Beneficiary`
+- `name`: String
+- `contact`: String
+- `documentId`: String
+
+**Flow**:
+```
+Beneficiary → Request (PENDING) → Approve → Allocate Stock (Inventory)
+                                          → Reject → REJECTED
+                                          → Fulfill → FULFILLED
+```
+
+### 3. Inventory Context
 
 **Responsibility**: Managing stock in warehouses.
 
@@ -50,7 +74,7 @@ Donor → DonationOffer (PENDING) → Accept → Lot (Inventory)
 - `quantity`: BigDecimal
 - `status`: PENDING | FULFILLED | CANCELLED
 
-### 3. User Context
+### 4. User Context
 
 **Responsibility**: Authentication and authorization.
 
@@ -68,18 +92,30 @@ Donor → DonationOffer (PENDING) → Accept → Lot (Inventory)
 - `type`: NGO | GOVERNMENT | COMPANY
 - `location`: String
 
+### 5. Disaster Context (Planned)
+
+**Responsibility**: Managing disaster events.
+
+**Core Entity**: `Disaster`
+- `id`: UUID
+- `name`: String (ex: "Enchente SP 2026")
+- `type`: FLOOD | EARTHQUAKE | FIRE
+- `status`: ACTIVE | INACTIVE
+- `location`: String
+
 ---
 
-## Portos e Adaptadores
+## Ports and Adapters
 
 ### Donation → Inventory Interface
 
 ```java
 public interface StockManagementPort {
     LotResponse createLotInWarehouse(UUID warehouseId, LotRequest request);
-    void allocateStock(UUID warehouseId, UUID productId, int quantity);
+    void allocateStock(UUID warehouseId, String productName, int quantity);
 }
 ```
 
 `DonationService` depends only on `StockManagementPort`, not on Inventory internal models.
+`RequestService` also depends on `StockManagementPort` to allocate stock when approving requests.
 `LotServiceImpl` implements both `LotService` and `StockManagementPort`.

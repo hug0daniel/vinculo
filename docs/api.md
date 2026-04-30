@@ -96,7 +96,61 @@ Response: 200 OK
 ```
 POST /donations/{id}/reject
 ```
+Response: 200 OK
 
+### Request
+
+#### Create Request
+```
+POST /requests
+Content-Type: application/json
+
+{
+    "beneficiary": {
+        "name": "John Doe",
+        "contact": "john@test.com",
+        "documentId": "DOC-001"
+    },
+    "disasterId": "uuid",
+    "items": [
+        {
+            "productName": "Rice",
+            "quantity": 50,
+            "unit": "KG"
+        }
+    ]
+}
+```
+Response: 201 Created
+
+#### List Requests
+```
+GET /requests
+```
+Response: 200 OK
+
+#### Get Request
+```
+GET /requests/{id}
+```
+Response: 200 OK
+
+#### Approve Request
+```
+POST /requests/{id}/approve?warehouseId={warehouseId}
+```
+Response: 200 OK
+
+#### Reject Request
+```
+POST /requests/{id}/reject
+```
+Response: 200 OK
+
+#### Fulfill Request
+```
+POST /requests/{id}/fulfill
+```
 Response: 200 OK
 
 ### Warehouse

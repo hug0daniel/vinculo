@@ -1,8 +1,14 @@
 package com.vinculo.unit.application.request;
 
-import com.vinculo.api.request.dto.RequestDto;
+import com.vinculo.api.request.dto.BeneficiaryDto;
+import com.vinculo.api.request.dto.CreateRequestRequest;
+import com.vinculo.api.request.dto.ItemDto;
+import com.vinculo.api.request.dto.RequestItemDto;
+import com.vinculo.api.request.dto.RequestListItem;
+import com.vinculo.api.request.dto.RequestResponse;
 import com.vinculo.api.request.mapper.RequestMapper;
 import com.vinculo.application.exception.ResourceNotFoundException;
+import com.vinculo.application.request.RequestService;
 import com.vinculo.application.request.RequestServiceImpl;
 import com.vinculo.domain.request.model.Beneficiary;
 import com.vinculo.domain.request.model.QuantityUnit;
@@ -40,29 +46,25 @@ class RequestServiceTest {
     private RequestServiceImpl requestService;
 
     private UUID requestId;
-    private RequestDto.CreateRequestRequest createRequest;
-    private RequestDto.RequestResponse mockResponse;
-    private RequestDto.RequestListItem mockListItem;
+    private CreateRequestRequest createRequest;
+    private RequestResponse mockResponse;
+    private RequestListItem mockListItem;
 
     @BeforeEach
     void setUp() {
         requestId = UUID.randomUUID();
 
-        RequestDto.BeneficiaryDto beneficiaryDto = new RequestDto.BeneficiaryDto(
-                "John Doe", "john@test.com", "DOC-001"
-        );
-
-        createRequest = new RequestDto.CreateRequestRequest(
-                beneficiaryDto,
+        createRequest = new CreateRequestRequest(
+                new BeneficiaryDto("John Doe", "john@test.com", "DOC-001"),
                 UUID.randomUUID(),
-                List.of(new RequestDto.RequestItemDto("Rice", new BigDecimal("50"), QuantityUnit.KG))
+                List.of(new RequestItemDto("Rice", new BigDecimal("50"), QuantityUnit.KG))
         );
 
-        mockResponse = new RequestDto.RequestResponse(
-                requestId, null, null, null, beneficiaryDto, null
+        mockResponse = new RequestResponse(
+                requestId, null, null, null, null, null
         );
 
-        mockListItem = new RequestDto.RequestListItem(
+        mockListItem = new RequestListItem(
                 requestId, null, null, null, "John Doe", 1
         );
     }
@@ -78,7 +80,7 @@ class RequestServiceTest {
             when(requestRepository.save(any(Request.class))).thenReturn(savedRequest);
             when(mapper.toResponse(any(Request.class))).thenReturn(mockResponse);
 
-            RequestDto.RequestResponse result = requestService.createRequest(createRequest);
+            RequestResponse result = requestService.createRequest(createRequest);
 
             assertNotNull(result);
             verify(requestRepository, times(1)).save(any(Request.class));
@@ -96,7 +98,7 @@ class RequestServiceTest {
             when(requestRepository.findById(requestId)).thenReturn(Optional.of(request));
             when(mapper.toResponse(request)).thenReturn(mockResponse);
 
-            RequestDto.RequestResponse result = requestService.approveRequest(requestId, UUID.randomUUID());
+            RequestResponse result = requestService.approveRequest(requestId, UUID.randomUUID());
 
             assertNotNull(result);
             verify(request, times(1)).approve(any(UUID.class));
@@ -121,9 +123,9 @@ class RequestServiceTest {
         void shouldReturnRequestsList() {
             Request request = mock(Request.class);
             when(requestRepository.findAll()).thenReturn(List.of(request));
-            when(mapper.toListItem(request)).thenReturn(mockListItem);
+            when(mapper.toListItem(any(Request.class))).thenReturn(mockListItem);
 
-            List<RequestDto.RequestListItem> result = requestService.getRequests();
+            List<RequestListItem> result = requestService.getRequests();
 
             assertEquals(1, result.size());
         }

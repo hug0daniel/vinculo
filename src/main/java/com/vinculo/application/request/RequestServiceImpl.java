@@ -1,6 +1,9 @@
 package com.vinculo.application.request;
 
-import com.vinculo.api.request.dto.RequestDto;
+import com.vinculo.api.request.dto.CreateRequestRequest;
+import com.vinculo.api.request.dto.RequestItemDto;
+import com.vinculo.api.request.dto.RequestListItem;
+import com.vinculo.api.request.dto.RequestResponse;
 import com.vinculo.api.request.mapper.RequestMapper;
 import com.vinculo.application.exception.ResourceNotFoundException;
 import com.vinculo.application.inventory.StockManagementPort;
@@ -31,11 +34,11 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public RequestDto.RequestResponse createRequest(RequestDto.CreateRequestRequest request) {
+    public RequestResponse createRequest(CreateRequestRequest request) {
         Beneficiary beneficiary = request.beneficiary().toDomain();
         Request newRequest = Request.create(beneficiary, request.disasterId());
 
-        for (RequestDto.RequestItemDto item : request.items()) {
+        for (RequestItemDto item : request.items()) {
             newRequest.addItem(item.productName(), item.quantity(), item.unit());
         }
 
@@ -44,7 +47,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public RequestDto.RequestResponse approveRequest(UUID requestId, UUID warehouseId) {
+    public RequestResponse approveRequest(UUID requestId, UUID warehouseId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 
@@ -57,7 +60,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public RequestDto.RequestResponse rejectRequest(UUID requestId) {
+    public RequestResponse rejectRequest(UUID requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 
@@ -66,7 +69,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public RequestDto.RequestResponse fulfillRequest(UUID requestId) {
+    public RequestResponse fulfillRequest(UUID requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 
@@ -75,14 +78,14 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public RequestDto.RequestResponse getRequest(UUID id) {
+    public RequestResponse getRequest(UUID id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
         return mapper.toResponse(request);
     }
 
     @Override
-    public List<RequestDto.RequestListItem> getRequests() {
+    public List<RequestListItem> getRequests() {
         return requestRepository.findAll().stream()
                 .map(mapper::toListItem)
                 .toList();

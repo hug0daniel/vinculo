@@ -82,7 +82,7 @@ class WarehouseIntegrationTest {
         lotRepository.save(lot1);
         lotRepository.save(lot2);
 
-        var lots = lotRepository.findByWarehouse_IdOrderByExpiryDateAsc(warehouse.getId());
+        var lots = lotRepository.findByWarehouseIdOrderByExpiryDateAsc(warehouse.getId());
 
         assertEquals(2, lots.size());
     }

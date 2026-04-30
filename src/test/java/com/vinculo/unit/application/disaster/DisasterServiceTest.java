@@ -1,6 +1,9 @@
 package com.vinculo.unit.application.disaster;
 
-import com.vinculo.api.disaster.dto.DisasterDto;
+import com.vinculo.api.disaster.dto.CreateDisasterRequest;
+import com.vinculo.api.disaster.dto.DisasterItem;
+import com.vinculo.api.disaster.dto.DisasterResponse;
+import com.vinculo.api.disaster.dto.UpdateDisasterRequest;
 import com.vinculo.api.disaster.mapper.DisasterMapper;
 import com.vinculo.application.disaster.DisasterServiceImpl;
 import com.vinculo.application.exception.ResourceNotFoundException;
@@ -38,32 +41,32 @@ class DisasterServiceTest {
     private DisasterServiceImpl disasterService;
 
     private UUID disasterId;
-    private DisasterDto.CreateDisasterRequest createRequest;
-    private DisasterDto.UpdateDisasterRequest updateRequest;
-    private DisasterDto.DisasterResponse mockResponse;
-    private DisasterDto.DisasterListItem mockListItem;
+    private CreateDisasterRequest createRequest;
+    private UpdateDisasterRequest updateRequest;
+    private DisasterResponse mockResponse;
+    private DisasterItem mockListItem;
 
     @BeforeEach
     void setUp() {
         disasterId = UUID.randomUUID();
 
-        createRequest = new DisasterDto.CreateDisasterRequest(
+        createRequest = new CreateDisasterRequest(
                 "Enchente SP 2026",
                 DisasterType.FLOOD,
                 "São Paulo"
         );
 
-        updateRequest = new DisasterDto.UpdateDisasterRequest(
+        updateRequest = new UpdateDisasterRequest(
                 "Updated Name",
                 DisasterType.EARTHQUAKE,
                 "Updated Location"
         );
 
-        mockResponse = new DisasterDto.DisasterResponse(
+        mockResponse = new DisasterResponse(
                 disasterId, "Test", DisasterType.FLOOD, null, "Location", null, null
         );
 
-        mockListItem = new DisasterDto.DisasterListItem(
+        mockListItem = new DisasterItem(
                 disasterId, "Test", DisasterType.FLOOD, null, "Location"
         );
     }
@@ -77,10 +80,10 @@ class DisasterServiceTest {
         void shouldCreateDisaster() {
             Disaster disaster = Disaster.create("Enchente SP 2026", DisasterType.FLOOD, "São Paulo");
             when(disasterRepository.save(any(Disaster.class))).thenReturn(disaster);
-            when(mapper.toEntity(any(DisasterDto.CreateDisasterRequest.class))).thenReturn(disaster);
+            when(mapper.toEntity(any(CreateDisasterRequest.class))).thenReturn(disaster);
             when(mapper.toResponse(any(Disaster.class))).thenReturn(mockResponse);
 
-            DisasterDto.DisasterResponse result = disasterService.createDisaster(createRequest);
+            DisasterResponse result = disasterService.createDisaster(createRequest);
 
             assertNotNull(result);
             verify(disasterRepository, times(1)).save(any(Disaster.class));
@@ -98,7 +101,7 @@ class DisasterServiceTest {
             when(disasterRepository.findById(disasterId)).thenReturn(Optional.of(disaster));
             when(mapper.toResponse(disaster)).thenReturn(mockResponse);
 
-            DisasterDto.DisasterResponse result = disasterService.updateDisaster(disasterId, updateRequest);
+            DisasterResponse result = disasterService.updateDisaster(disasterId, updateRequest);
 
             assertNotNull(result);
             verify(disaster, times(1)).updateDetails(updateRequest.name(), updateRequest.type(), updateRequest.location());
@@ -125,7 +128,7 @@ class DisasterServiceTest {
             when(disasterRepository.findAll()).thenReturn(List.of(disaster));
             when(mapper.toListItem(disaster)).thenReturn(mockListItem);
 
-            List<DisasterDto.DisasterListItem> result = disasterService.getDisasters();
+            List<DisasterItem> result = disasterService.getDisasters();
 
             assertEquals(1, result.size());
         }

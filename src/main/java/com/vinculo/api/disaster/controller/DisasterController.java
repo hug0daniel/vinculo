@@ -1,6 +1,9 @@
 package com.vinculo.api.disaster.controller;
 
-import com.vinculo.api.disaster.dto.DisasterDto;
+import com.vinculo.api.disaster.dto.CreateDisasterRequest;
+import com.vinculo.api.disaster.dto.DisasterItem;
+import com.vinculo.api.disaster.dto.DisasterResponse;
+import com.vinculo.api.disaster.dto.UpdateDisasterRequest;
 import com.vinculo.application.disaster.DisasterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,45 +28,45 @@ public class DisasterController {
 
     @PostMapping
     @Operation(summary = "Create disaster", description = "Register a new disaster event")
-    public ResponseEntity<DisasterDto.DisasterResponse> createDisaster(@Valid @RequestBody DisasterDto.CreateDisasterRequest request) {
-        DisasterDto.DisasterResponse response = disasterService.createDisaster(request);
+    public ResponseEntity<DisasterResponse> createDisaster(@Valid @RequestBody CreateDisasterRequest request) {
+        DisasterResponse response = disasterService.createDisaster(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update disaster", description = "Update disaster details")
-    public ResponseEntity<DisasterDto.DisasterResponse> updateDisaster(
+    public ResponseEntity<DisasterResponse> updateDisaster(
             @PathVariable UUID id,
-            @Valid @RequestBody DisasterDto.UpdateDisasterRequest request) {
-        DisasterDto.DisasterResponse response = disasterService.updateDisaster(id, request);
+            @Valid @RequestBody UpdateDisasterRequest request) {
+        DisasterResponse response = disasterService.updateDisaster(id, request);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{id}/deactivate")
     @Operation(summary = "Deactivate disaster", description = "Mark disaster as inactive")
-    public ResponseEntity<DisasterDto.DisasterResponse> deactivateDisaster(@PathVariable UUID id) {
-        DisasterDto.DisasterResponse response = disasterService.deactivateDisaster(id);
+    public ResponseEntity<DisasterResponse> deactivateDisaster(@PathVariable UUID id) {
+        DisasterResponse response = disasterService.deactivateDisaster(id);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{id}/reactivate")
     @Operation(summary = "Reactivate disaster", description = "Reactivate an inactive disaster")
-    public ResponseEntity<DisasterDto.DisasterResponse> reactivateDisaster(@PathVariable UUID id) {
-        DisasterDto.DisasterResponse response = disasterService.reactivateDisaster(id);
+    public ResponseEntity<DisasterResponse> reactivateDisaster(@PathVariable UUID id) {
+        DisasterResponse response = disasterService.reactivateDisaster(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get disaster by ID")
-    public ResponseEntity<DisasterDto.DisasterResponse> getDisaster(@PathVariable UUID id) {
-        DisasterDto.DisasterResponse response = disasterService.getDisaster(id);
+    public ResponseEntity<DisasterResponse> getDisaster(@PathVariable UUID id) {
+        DisasterResponse response = disasterService.getDisaster(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
     @Operation(summary = "List disasters")
-    public ResponseEntity<List<DisasterDto.DisasterListItem>> getDisasters() {
-        List<DisasterDto.DisasterListItem> response = disasterService.getDisasters();
+    public ResponseEntity<List<DisasterItem>> getDisasters() {
+        List<DisasterItem> response = disasterService.getDisasters();
         return ResponseEntity.ok(response);
     }
 }

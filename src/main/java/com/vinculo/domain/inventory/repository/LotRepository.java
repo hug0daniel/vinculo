@@ -11,5 +11,8 @@ public interface LotRepository extends JpaRepository<Lot, UUID> {
 
     List<Lot> findByWarehouseId(UUID warehouseId);
 
-    List<Lot> findByWarehouse_IdOrderByExpiryDateAsc(UUID warehouseId);
+    List<Lot> findByWarehouseIdOrderByExpiryDateAsc(UUID warehouseId);
+
+    List<Lot> findByWarehouseIdAndProductNameAndExpiryDateIsNotNullOrderByExpiryDateAsc(
+            UUID warehouseId, String productName);
 }

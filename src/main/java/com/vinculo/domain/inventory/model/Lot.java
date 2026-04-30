@@ -61,6 +61,8 @@ public class Lot {
         this.warehouse = warehouse;
     }
 
+    public void setQuantity(BigDecimal quantity) { this.quantity = quantity; }
+
     public void deduct(BigDecimal amount) {
         if (amount.compareTo(quantity) > 0) {
             throw new IllegalArgumentException("Insufficient stock in lot");

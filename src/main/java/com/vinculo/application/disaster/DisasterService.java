@@ -1,15 +1,18 @@
 package com.vinculo.application.disaster;
 
-import com.vinculo.api.disaster.dto.DisasterDto;
+import com.vinculo.api.disaster.dto.CreateDisasterRequest;
+import com.vinculo.api.disaster.dto.DisasterItem;
+import com.vinculo.api.disaster.dto.DisasterResponse;
+import com.vinculo.api.disaster.dto.UpdateDisasterRequest;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface DisasterService {
-    DisasterDto.DisasterResponse createDisaster(DisasterDto.CreateDisasterRequest request);
-    DisasterDto.DisasterResponse updateDisaster(UUID disasterId, DisasterDto.UpdateDisasterRequest request);
-    DisasterDto.DisasterResponse deactivateDisaster(UUID disasterId);
-    DisasterDto.DisasterResponse reactivateDisaster(UUID disasterId);
-    DisasterDto.DisasterResponse getDisaster(UUID id);
-    List<DisasterDto.DisasterListItem> getDisasters();
+    DisasterResponse createDisaster(CreateDisasterRequest request);
+    DisasterResponse updateDisaster(UUID disasterId, UpdateDisasterRequest request);
+    DisasterResponse deactivateDisaster(UUID disasterId);
+    DisasterResponse reactivateDisaster(UUID disasterId);
+    DisasterResponse getDisaster(UUID id);
+    List<DisasterItem> getDisasters();
 }

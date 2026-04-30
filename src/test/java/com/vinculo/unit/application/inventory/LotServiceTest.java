@@ -2,7 +2,9 @@ package com.vinculo.unit.application.inventory;
 
 import com.vinculo.api.lot.controller.dto.LotRequest;
 import com.vinculo.application.exception.ResourceNotFoundException;
+import com.vinculo.application.inventory.FefoStockService;
 import com.vinculo.application.inventory.LotService;
+import com.vinculo.application.inventory.LotServiceImpl;
 import com.vinculo.domain.inventory.model.Lot;
 import com.vinculo.domain.inventory.model.Unit;
 import com.vinculo.domain.inventory.model.Warehouse;
@@ -35,6 +37,9 @@ class LotServiceTest {
     @Mock
     private WarehouseRepository warehouseRepository;
 
+    @Mock
+    private FefoStockService fefoStockService;
+
     private LotService lotService;
 
     private UUID warehouseId;
@@ -42,7 +47,10 @@ class LotServiceTest {
 
     @BeforeEach
     void setUp() {
-        lotService = new com.vinculo.application.inventory.LotServiceImpl(lotRepository, warehouseRepository);
+        lotRepository = mock(LotRepository.class);
+        warehouseRepository = mock(WarehouseRepository.class);
+        fefoStockService = mock(FefoStockService.class);
+        lotService = new LotServiceImpl(lotRepository, warehouseRepository, fefoStockService);
         warehouseId = UUID.randomUUID();
         lotId = UUID.randomUUID();
     }

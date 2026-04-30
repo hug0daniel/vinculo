@@ -1,6 +1,9 @@
 package com.vinculo.application.disaster;
 
-import com.vinculo.api.disaster.dto.DisasterDto;
+import com.vinculo.api.disaster.dto.CreateDisasterRequest;
+import com.vinculo.api.disaster.dto.DisasterItem;
+import com.vinculo.api.disaster.dto.DisasterResponse;
+import com.vinculo.api.disaster.dto.UpdateDisasterRequest;
 import com.vinculo.api.disaster.mapper.DisasterMapper;
 import com.vinculo.application.exception.ResourceNotFoundException;
 import com.vinculo.domain.disaster.model.Disaster;
@@ -24,14 +27,14 @@ public class DisasterServiceImpl implements DisasterService {
     }
 
     @Override
-    public DisasterDto.DisasterResponse createDisaster(DisasterDto.CreateDisasterRequest request) {
+    public DisasterResponse createDisaster(CreateDisasterRequest request) {
         Disaster disaster = mapper.toEntity(request);
         Disaster saved = disasterRepository.save(disaster);
         return mapper.toResponse(saved);
     }
 
     @Override
-    public DisasterDto.DisasterResponse updateDisaster(UUID disasterId, DisasterDto.UpdateDisasterRequest request) {
+    public DisasterResponse updateDisaster(UUID disasterId, UpdateDisasterRequest request) {
         Disaster disaster = disasterRepository.findById(disasterId)
                 .orElseThrow(() -> new ResourceNotFoundException("Disaster not found"));
         disaster.updateDetails(request.name(), request.type(), request.location());
@@ -39,7 +42,7 @@ public class DisasterServiceImpl implements DisasterService {
     }
 
     @Override
-    public DisasterDto.DisasterResponse deactivateDisaster(UUID disasterId) {
+    public DisasterResponse deactivateDisaster(UUID disasterId) {
         Disaster disaster = disasterRepository.findById(disasterId)
                 .orElseThrow(() -> new ResourceNotFoundException("Disaster not found"));
         disaster.deactivate();
@@ -47,7 +50,7 @@ public class DisasterServiceImpl implements DisasterService {
     }
 
     @Override
-    public DisasterDto.DisasterResponse reactivateDisaster(UUID disasterId) {
+    public DisasterResponse reactivateDisaster(UUID disasterId) {
         Disaster disaster = disasterRepository.findById(disasterId)
                 .orElseThrow(() -> new ResourceNotFoundException("Disaster not found"));
         disaster.reactivate();
@@ -55,14 +58,14 @@ public class DisasterServiceImpl implements DisasterService {
     }
 
     @Override
-    public DisasterDto.DisasterResponse getDisaster(UUID id) {
+    public DisasterResponse getDisaster(UUID id) {
         Disaster disaster = disasterRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Disaster not found"));
         return mapper.toResponse(disaster);
     }
 
     @Override
-    public List<DisasterDto.DisasterListItem> getDisasters() {
+    public List<DisasterItem> getDisasters() {
         return disasterRepository.findAll().stream()
                 .map(mapper::toListItem)
                 .toList();

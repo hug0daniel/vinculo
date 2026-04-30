@@ -60,6 +60,6 @@ public class LotServiceImpl implements LotService, StockManagementPort {
     }
 
     @Override
-    public void allocateStock(UUID warehouseId, UUID productId, int quantity) {
+    public void allocateStock(UUID warehouseId, String productName, int quantity) {
     }
 }

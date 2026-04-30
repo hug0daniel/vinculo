@@ -9,5 +9,5 @@ public interface StockManagementPort {
 
     LotResponse createLotInWarehouse(UUID warehouseId, LotRequest request);
 
-    void allocateStock(UUID warehouseId, UUID productId, int quantity);
+    void allocateStock(UUID warehouseId, String productName, int quantity);
 }

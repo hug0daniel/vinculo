@@ -1,0 +1,100 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.vinculo:vinculo >-------------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ vinculo ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ vinculo ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ vinculo ---
+[INFO] skip non existing resourceDirectory C:\Users\hugo_\Desktop\projects\vinculo\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ vinculo ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.5:test (default-test) @ vinculo ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running Request Persistence
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.5)
+
+2026-04-30T15:29:56.025+01:00  INFO 32512 --- [vinculo] [           main] c.v.i.d.r.p.RequestPersistenceTest       : Starting RequestPersistenceTest using Java 21.0.10 with PID 32512 (started by hugo_ in C:\Users\hugo_\Desktop\projects\vinculo)
+2026-04-30T15:29:56.027+01:00  INFO 32512 --- [vinculo] [           main] c.v.i.d.r.p.RequestPersistenceTest       : The following 1 profile is active: "test"
+2026-04-30T15:29:56.803+01:00  INFO 32512 --- [vinculo] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-30T15:29:56.880+01:00  INFO 32512 --- [vinculo] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 70 ms. Found 7 JPA repository interfaces.
+2026-04-30T15:29:57.369+01:00  INFO 32512 --- [vinculo] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-30T15:29:57.477+01:00  INFO 32512 --- [vinculo] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:eed5f4e4-b480-4b47-ad8c-32e81f083bcf user=SA
+2026-04-30T15:29:57.479+01:00  INFO 32512 --- [vinculo] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-30T15:29:57.500+01:00  INFO 32512 --- [vinculo] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-30T15:29:57.536+01:00  INFO 32512 --- [vinculo] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-04-30T15:29:57.781+01:00  INFO 32512 --- [vinculo] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-30T15:29:57.825+01:00  INFO 32512 --- [vinculo] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:eed5f4e4-b480-4b47-ad8c-32e81f083bcf]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: EED5F4E4-B480-4B47-AD8C-32E81F083BCF/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-30T15:29:58.463+01:00  INFO 32512 --- [vinculo] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-30T15:29:58.506+01:00  INFO 32512 --- [vinculo] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-30T15:29:58.585+01:00  INFO 32512 --- [vinculo] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-30T15:29:59.185+01:00  WARN 32512 --- [vinculo] [           main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: b05c7512-7d13-4e6f-b797-fa18b4854305
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-30T15:29:59.193+01:00  INFO 32512 --- [vinculo] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-30T15:29:59.264+01:00  INFO 32512 --- [vinculo] [           main] c.v.i.security.SecurityConfig            : Configuring security filter chain
+2026-04-30T15:29:59.304+01:00  INFO 32512 --- [vinculo] [           main] c.v.i.security.SecurityConfig            : Security filter chain configured successfully
+2026-04-30T15:29:59.756+01:00  INFO 32512 --- [vinculo] [           main] c.v.i.d.r.p.RequestPersistenceTest       : Started RequestPersistenceTest in 3.905 seconds (process running for 4.595)
+mvn : Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases 
+of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: 
+https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+At line:1 char:47
++ ... s\vinculo"; mvn test -Dtest="com.vinculo.integration.domain.request.p ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Mockito is curr...ockito.html#0.3:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap 
+classpath has been appended
+WARNING: A Java agent has been loaded dynamically 
+(C:\Users\hugo_\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.8\byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.567 s -- in Request Persistence
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  6.309 s
+[INFO] Finished at: 2026-04-30T15:30:00+01:00
+[INFO] ------------------------------------------------------------------------

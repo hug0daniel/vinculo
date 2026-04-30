@@ -1,7 +1,7 @@
 package com.vinculo.api.warehouse.utils;
 
-import com.vinculo.api.warehouse.dto.LotRequest;
-import com.vinculo.api.warehouse.dto.LotResponse;
+import com.vinculo.api.lot.controller.dto.LotRequest;
+import com.vinculo.api.lot.controller.dto.LotResponse;
 import com.vinculo.domain.inventory.model.Lot;
 import com.vinculo.domain.inventory.model.Warehouse;
 

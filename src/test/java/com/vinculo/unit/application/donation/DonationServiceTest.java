@@ -3,7 +3,7 @@ package com.vinculo.unit.application.donation;
 import com.vinculo.api.donation.dto.DonationRequest;
 import com.vinculo.api.donation.dto.DonationResponse;
 import com.vinculo.api.donation.utils.DonationMapper;
-import com.vinculo.api.warehouse.dto.LotRequest;
+import com.vinculo.api.lot.controller.dto.LotRequest;
 import com.vinculo.application.inventory.StockManagementPort;
 import com.vinculo.domain.donation.model.DonationOffer;
 import com.vinculo.domain.donation.model.DonationStatus;

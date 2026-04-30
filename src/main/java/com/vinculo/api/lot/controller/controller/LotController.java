@@ -1,7 +1,7 @@
-package com.vinculo.api.lot.controller;
+package com.vinculo.api.lot.controller.controller;
 
-import com.vinculo.api.warehouse.dto.LotRequest;
-import com.vinculo.api.warehouse.dto.LotResponse;
+import com.vinculo.api.lot.controller.dto.LotRequest;
+import com.vinculo.api.lot.controller.dto.LotResponse;
 import com.vinculo.application.inventory.LotService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

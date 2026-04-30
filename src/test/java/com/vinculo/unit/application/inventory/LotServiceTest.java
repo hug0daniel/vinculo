@@ -1,6 +1,6 @@
 package com.vinculo.unit.application.inventory;
 
-import com.vinculo.api.warehouse.dto.LotRequest;
+import com.vinculo.api.lot.controller.dto.LotRequest;
 import com.vinculo.application.exception.ResourceNotFoundException;
 import com.vinculo.application.inventory.LotService;
 import com.vinculo.domain.inventory.model.Lot;

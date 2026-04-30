@@ -1,4 +1,4 @@
-package com.vinculo.api.warehouse.dto;
+package com.vinculo.api.lot.controller.dto;
 
 import com.vinculo.domain.inventory.model.Unit;
 import jakarta.validation.constraints.NotNull;
